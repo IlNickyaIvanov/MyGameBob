@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#a5df11</color>
+    <color name="colorPrimaryDark">#99cf10</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="my_color">#e9eee9</color>
+    <color name="bg_color">#111111</color>
+    <color name="EditTextBG">#282828</color>
+    <color name="BTNstrt">#a2c124</color>
+    <color name="txtVIEW">#acce23</color>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BoB</string>
+    <string name="how_title">Как играть</string>
+    <string name="version">версия 1.1</string>
+
+    <string name="play">играть</string>
+    <string name="how_to_play">как играть</string>
+    <string name="settings">настройки</string>
+    <string name="welcome">Добро Пожаловать!</string>
+    <string name="attack">Внимание!\nЩенки Атакуют!</string>
+    <string name="htp_text" formated="false">
+        <b>Основные команды:</b>\n
+        \n
+       <b> вверх:</b> \n
+    up (кол-во шагов);\n
+         <b>вниз:</b> \n
+    down (кол-во шагов);\n
+       <b> направо:</b>\n
+   right (кол-во шагов);\n
+        <b> налево:</b>  \n
+    left (кол-во шагов);\n
+        \n
+    <b>Циклы</b> \n(повторение команд)\n\n
+        С числом повторений: \n
+    <b>repeat (число повторов){</b>\n
+        команды для\n
+        повторения\n
+        <b>}</b>\n
+        С условием повторения: \n
+     <b>while (условие){</b>\n
+        команды для\n
+        повторения\n
+        <b>}</b>\n
+    </string>
+    <string name="title_activity_menu">menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
