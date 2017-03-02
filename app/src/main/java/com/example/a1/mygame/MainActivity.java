@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private boolean pause;
@@ -71,7 +75,8 @@ public class MainActivity extends Activity {
     }
     public void OnClickSecret(View view) {
         if(liveGhosts==0)count=999;
-    }
+
+           }
 
     public void onClickImage(View view) {
         if (liveGhosts<=0){

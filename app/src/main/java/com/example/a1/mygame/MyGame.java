@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -140,10 +141,10 @@ public class MyGame extends Activity {
     {
         switch (item.getItemId())
         {
-            case UP:editText.getText().insert(editText.getSelectionStart(),"up ;");break;
-            case DOWN:editText.getText().insert(editText.getSelectionStart(),"down ;");break;
-            case RIGHT:editText.getText().insert(editText.getSelectionStart(),"right ;");break;
-            case LEFT:editText.getText().insert(editText.getSelectionStart(),"left ;");break;
+            case UP:editText.getText().insert(editText.getSelectionStart(),"up ;\n");break;
+            case DOWN:editText.getText().insert(editText.getSelectionStart(),"down ;\n");break;
+            case RIGHT:editText.getText().insert(editText.getSelectionStart(),"right ;\n");break;
+            case LEFT:editText.getText().insert(editText.getSelectionStart(),"left ;\n");break;
             case REPEAT:
                 editText.getText().insert(editText.getSelectionStart(),"repeat (2){\n \n};\n");break;
             default:return super.onContextItemSelected(item);
@@ -159,7 +160,6 @@ public class MyGame extends Activity {
         move=true;
         //if(!text.isEmpty())editText.setText(reformatKOD(text));
     }
-
     String reformatKOD(String text){
         String text2="";
         String line[]=text.split(";");

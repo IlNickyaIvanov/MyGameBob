@@ -27,8 +27,7 @@
             android:label="@string/how_title"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings"
-            android:screenOrientation="portrait" />
+            android:name=".Settings" />
         <activity
             android:name=".LevelMenu"
             android:screenOrientation="landscape"
