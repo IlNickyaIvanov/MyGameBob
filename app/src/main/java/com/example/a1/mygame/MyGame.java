@@ -1,21 +1,14 @@
 package com.example.a1.mygame;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
-import android.view.ContextMenu;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,17 +36,10 @@ public class MyGame extends Activity {
     static KodParser kodParser;
     Robot robot;
 
-    final static int UP = 1;
-    final static int DOWN = 2;
-    final static int RIGHT = 3;
-    final static int LEFT = 4;
-    final static int REPEAT = 5;
-
     private static long back_pressed;
 
     TextView textView;
     EditText editText;
-    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +54,6 @@ public class MyGame extends Activity {
 
         textView = (TextView)findViewById(R.id.TextView1);
         editText = (EditText) findViewById(R.id.editText);
-        registerForContextMenu(editText);
-        button = (Button)findViewById(R.id.button);
-
 
         MyTimer timer = new MyTimer();timer.start();
 
@@ -103,6 +86,21 @@ public class MyGame extends Activity {
                 LevelMenu.AlertDialogMessage,
                 "ок");
     }
+
+
+    public void Comands(View view) {
+        showPopupMenu(view);
+    }
+    public void onClickStart(View view) {
+        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+        kodParser.x=StartX;kodParser.y=StartY;
+        String text = editText.getText().toString();
+        action=kodParser.kodParser(text);
+        move=true;
+        //if(!text.isEmpty())editText.setText(reformatKOD(text));
+    }
+
+
     @Override
     protected void onPause(){
         super.onPause();
@@ -121,60 +119,6 @@ public class MyGame extends Activity {
             Utils.makeToast(this,"Нажми еще раз для выхода.");
         back_pressed = System.currentTimeMillis();
     }
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo)
-    {
-            super.onCreateContextMenu(menu, v, menuInfo);
-        SubMenu subMenuMovie = menu.addSubMenu("движение");
-        subMenuMovie.add(Menu.NONE, UP, Menu.NONE, "вверх");
-        subMenuMovie.add(Menu.NONE, DOWN, Menu.NONE, "вниз");
-        subMenuMovie.add(Menu.NONE, RIGHT, Menu.NONE, "направо");
-        subMenuMovie.add(Menu.NONE, LEFT, Menu.NONE, "налево");
-
-        SubMenu subMenuLoops = menu.addSubMenu("циклы");
-        subMenuLoops.add(Menu.NONE, REPEAT, Menu.NONE, "повтори");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case UP:editText.getText().insert(editText.getSelectionStart(),"up ;\n");break;
-            case DOWN:editText.getText().insert(editText.getSelectionStart(),"down ;\n");break;
-            case RIGHT:editText.getText().insert(editText.getSelectionStart(),"right ;\n");break;
-            case LEFT:editText.getText().insert(editText.getSelectionStart(),"left ;\n");break;
-            case REPEAT:
-                editText.getText().insert(editText.getSelectionStart(),"repeat (2){\n \n};\n");break;
-            default:return super.onContextItemSelected(item);
-        }
-        return true;
-    }
-
-    public void onClickStart(View view) {
-        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
-        kodParser.x=StartX;kodParser.y=StartY;
-        String text = editText.getText().toString();
-        action=kodParser.kodParser(text);
-        move=true;
-        //if(!text.isEmpty())editText.setText(reformatKOD(text));
-    }
-    String reformatKOD(String text){
-        String text2="";
-        String line[]=text.split(";");
-        text2+=line[0]+";";
-        text2+=line[line.length-1];
-        for (int i =1;i<line.length-1;i++){
-            if(!line[i].contains("\n")){
-                line[i]+=";\n";
-                text2+=line[i];
-            }
-            else text2+=line[i]+";";
-        }
-        return text2;
-    }
-
     public void update() {
         //начало выполнения программы
         if (move){//включается при нажатии ПУСК
@@ -183,6 +127,7 @@ public class MyGame extends Activity {
                 Utils.AlertDialog(this,"Ошибка в коде...",AlertDialogMessage,"ок");
                 editText.setSelection(kodParser.start, kodParser.stop);
                 move=false; count = 0; action = 0;
+                kodParser.setAction(0);
             }
             else if (action!=0) {
                 textView.setText("  робот шагает " + kodParser.ComandName[count]);
@@ -200,7 +145,9 @@ public class MyGame extends Activity {
 
         //конец списка команд
         if (count == action && move && action!=0){//конец движения
-            move=false; count = 0; action = 0;//обнуление счетчиков
+            move=false;
+            kodParser.action=0;
+            count = 0;
 
             if (AlertDialogMessage!=null){
                 Utils.AlertDialog(this,"Дальше не могу.",AlertDialogMessage,"ок");
@@ -229,5 +176,50 @@ public class MyGame extends Activity {
         @Override
         public void onFinish() {
         }
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.popup_menu); // Для Android 4.0
+        popupMenu
+                .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId())
+                        {
+                            case R.id.up:editText.getText().insert(editText.getSelectionStart(),"up ;\n");return true;
+                            case R.id.down:editText.getText().insert(editText.getSelectionStart(),"down ;\n");return true;
+                            case R.id.right:editText.getText().insert(editText.getSelectionStart(),"right ;\n");return true;
+                            case R.id.left:editText.getText().insert(editText.getSelectionStart(),"left ;\n");return true;
+                            case R.id.repeat:
+                                editText.getText().insert(editText.getSelectionStart(),"repeat (2){\n \n};\n");return true;
+                            default:return false;
+                        }
+                    }
+                });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+
+            @Override
+            public void onDismiss(PopupMenu menu) {
+
+            }
+        });
+        popupMenu.show();
+    }
+
+    String reformatKOD(String text){
+        String text2="";
+        String line[]=text.split(";");
+        text2+=line[0]+";";
+        text2+=line[line.length-1];
+        for (int i =1;i<line.length-1;i++){
+            if(!line[i].contains("\n")){
+                line[i]+=";\n";
+                text2+=line[i];
+            }
+            else text2+=line[i]+";";
+        }
+        return text2;
     }
 }

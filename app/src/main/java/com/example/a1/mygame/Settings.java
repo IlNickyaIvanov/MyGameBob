@@ -20,7 +20,9 @@ public class Settings extends Activity {
     public void OnClick(View view) {
         PopupMenu popup = new PopupMenu(this, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup, popup.getMenu());
+        inflater.inflate(R.menu.popup_menu, popup.getMenu());
         popup.show();
+
     }
+
 }
