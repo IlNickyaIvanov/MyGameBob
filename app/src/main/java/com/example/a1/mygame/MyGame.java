@@ -19,6 +19,7 @@ public class MyGame extends Activity {
     final static int onTick = 1000;//скорость движение робота 'млс'
 
     boolean pause, move;
+    static boolean NOTshowPopUp;
 
     static String toast = "выполнение\n" + "программы завершилось\n" + "УСПЕШНО";
     static String AlertDialogMessage;
@@ -34,7 +35,7 @@ public class MyGame extends Activity {
     static Square square[][];
 
     static KodParser kodParser;
-    Robot robot;
+    static Robot robot;
 
     private static long back_pressed;
 
@@ -57,9 +58,9 @@ public class MyGame extends Activity {
 
         MyTimer timer = new MyTimer();timer.start();
 
-        square = new Square[LevelMenu.col][LevelMenu.row];
         LEVEL_NUM = getIntent().getIntExtra("level_num", 1);
         level_key=LevelMenu.getLevel(LEVEL_NUM);//ключ создания уровня
+        square = new Square[level_key.length][level_key[0].length];
         size=screenX/2/square[0].length;//РАЗМЕР КЛЕТОК
         StartX = LevelMenu.StartX;//ЗАДАНИЕ-
         StartY = LevelMenu.StartY;//-НАЧАЛЬНЫХ КООРДИНАТ
@@ -78,26 +79,35 @@ public class MyGame extends Activity {
         }
 
         robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenX,screenY);//!ВАЖНО!создание робота в [0][0]
-        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
         kodParser = new KodParser(StartX,StartY,square);//СОЗДАНИЕ "ПАРСЕРА"
         // И ПЕРЕДАЧА НАЧАЛЬНЫХ КООРДИНАТ ДЛЯ СИНХРОНИЗАЦИИ c положением робота
 
-        Utils.AlertDialog(this,LevelMenu.AlertDialogTitle,
-                LevelMenu.AlertDialogMessage,
-                "ок");
-    }
+        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
+            Tutorial tutorial = new Tutorial(LEVEL_NUM, this);
+        }
+        }
+
 
 
     public void Comands(View view) {
-        showPopupMenu(view);
+        if(!NOTshowPopUp)showPopupMenu(view);
+        else Utils.AlertDialog(this,"Задание "+LEVEL_NUM,
+                "Постарайся выполнить это задание без помощи автоввода.",
+                "ок");
     }
     public void onClickStart(View view) {
-        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
-        kodParser.x=StartX;kodParser.y=StartY;
-        String text = editText.getText().toString();
-        action=kodParser.kodParser(text);
-        move=true;
-        //if(!text.isEmpty())editText.setText(reformatKOD(text));
+        if (!move) {
+            if(!Tutorial.IsTutorial) {
+                robot.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+                kodParser.x = StartX;
+                kodParser.y = StartY;
+            }
+            String text = editText.getText().toString();
+            action = kodParser.kodParser(text);
+            move = true;
+            //if(!text.isEmpty())editText.setText(reformatKOD(text));
+        }
     }
 
 
@@ -133,18 +143,19 @@ public class MyGame extends Activity {
                 textView.setText("  робот шагает " + kodParser.ComandName[count]);
                 robot.RobotMove(
                         square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
-                        square[(kodParser.ARy[count])][(kodParser.ARx[count])].x);//перемещение в клетку [y][x]
+                        square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
+                        kodParser.ARy[count],kodParser.ARx[count]);//перемещение в клетку [y][x]
                 count++;//перебор элементов массивов "положения" до action
             }
         }
 
         else {textView.setText("  робот стоит "+kodParser.y+" "+kodParser.x);
-            robot.RobotMove(robot.y,robot.x); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
+            robot.RobotMove(robot.y,robot.x,robot.sqY,robot.sqX); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
         }
 
 
         //конец списка команд
-        if (count == action && move && action!=0){//конец движения
+        if (count == action && move ){//конец движения
             move=false;
             kodParser.action=0;
             count = 0;
@@ -153,13 +164,13 @@ public class MyGame extends Activity {
                 Utils.AlertDialog(this,"Дальше не могу.",AlertDialogMessage,"ок");
                 editText.setSelection(kodParser.start, kodParser.stop);}
             //по прохождению уровня...
-            else if (kodParser.x==EndX && kodParser.y == EndY && LEVEL_NUM>=1)
+            else if (kodParser.x==EndX && kodParser.y == EndY && LEVEL_NUM>=1 && !Tutorial.isTask())
                 Utils.AlertDialog(this,"Уровень "+LEVEL_NUM+"  Пройден!",
                         "Ух ты! А ты не такой салага, как я думал...",
                         "ок");
-            else if (LEVEL_NUM>=1){
-                Utils.AlertDialog(this,"Уровень "+LEVEL_NUM,
-                        "Боб недошел до конца лабиринта.\nПопробуй еще...",
+            else if (LEVEL_NUM>1 && !Tutorial.IsTutorial){
+                Utils.AlertDialog(this,"Уровень"+LEVEL_NUM,
+                        "Боб не дошел до конца лабиринта.\nПопробуй еще...",
                         "ок");
             }
             else Utils.makeToast(this,toast);//отчет об выполении

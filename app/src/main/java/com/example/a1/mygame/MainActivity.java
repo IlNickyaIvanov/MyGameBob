@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private boolean pause;
@@ -22,6 +18,7 @@ public class MainActivity extends Activity {
     protected static int screenWidth, screenHeight;
     protected static int liveGhosts, diedGhosts,nGhosts;
     private static int count;
+    private static long back_pressed;
     MiniGameGhost ghost[] = new MiniGameGhost[200];
     TextView textViewVersion,textViewWelcome;
     Robot robot;
@@ -54,6 +51,14 @@ public class MainActivity extends Activity {
         super.onPause();
         count=0;
         pause=false;
+    }
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis())
+            super.onBackPressed();
+        else
+            Utils.makeToast(this,"Нажми еще раз для выхода.");
+        back_pressed = System.currentTimeMillis();
     }
 
     public void onClickPlay(View view) {
@@ -92,7 +97,7 @@ public class MainActivity extends Activity {
 
     void update(){
         count++;//счетчик
-        if (liveGhosts==0) {textViewVersion.setText(R.string.version);textViewWelcome.setText(R.string.welcome);}
+        if (liveGhosts==0) {textViewVersion.setText(R.string.version);textViewWelcome.setText(R.string.bob_name);}
         if (count>=miniGameStart && liveGhosts<MaxNGhost && nGhosts<ghost.length) {miniGameGhost();}
         for (int i = 0; i < nGhosts; i++) {if (ghost[i].live) ghost[i].move(); else diedGhosts++;}
     }

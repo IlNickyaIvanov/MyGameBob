@@ -1,8 +1,5 @@
 package com.example.a1.mygame;
 
-
-import android.content.res.Resources;
-
 class KodParser {
     private Square square[][];
     int action;
@@ -57,8 +54,7 @@ class KodParser {
                 }
                 //проверка на существование КОМАНДЫ ОБНОВЛЯТЬ ПО ДОБАВЛЕНИЮ НОВЫХ КОМАНД!
                 if (IS_COMAND_EXIST(cOmAnD, MainLine[i], text)) break;
-                if (!pause) i += executor(cOmAnD, num, i, MainLine);//исполнитель
-                if (pause) SELECTOR(MainLine[i], text, symbolslENGTH);
+                if (!pause) i += executor(cOmAnD, num, i, MainLine,text);//исполнитель
                 if (!loop) symbolslENGTH += MainLine[i].length() + 1;
                 else loop = false;
             }
@@ -70,7 +66,7 @@ class KodParser {
         return action;
     }
 
-    private int executor(String cOmAnD, int num, int Element, String MainLine[]) {
+    private int executor(String cOmAnD, int num, int Element, String MainLine[],String text) {
         int LOOP_JUMP = 0;
         loop = false;
         for (int g = 0; g < num; g++) {
@@ -104,11 +100,11 @@ class KodParser {
                     }
                     break;
                 case "repeat":
-                    LOOP_JUMP = idetifyBODY(MainLine, Element);
+                    LOOP_JUMP = idetifyBODY(MainLine, Element,text);
                     if (!kodERROR) {
-                        symbolslENGTH +=
+                        if(g==0)symbolslENGTH +=
                                 MainLine[Element].substring(0, MainLine[Element].indexOf("{") + 1).length();
-                        LOOP(Element, MainLine);
+                        LOOP(Element, MainLine,text);
                     }
                     loop = true;
                     break;
@@ -116,28 +112,29 @@ class KodParser {
                     break;
             }
             if (loop) continue;
+            if (pause) {
+                SELECTOR(MainLine[Element], text, symbolslENGTH);
+                break;
+            }
             ARx[action] = x;
             ARy[action] = y;
             ComandName[action] = cOmAnD;
             action++;
-
-            if (pause) break;
         }
         return LOOP_JUMP;
     }
 
-    private void LOOP(int LoopElement, String MainLine[]) {
+    private void LOOP(int LoopElement, String MainLine[],String text) {
         int index = MainLine[LoopElement].replaceAll(" ", "").indexOf(")");
         String test = MainLine[LoopElement].replaceAll(" ", "").substring(index, index + 2);
         if (!test.equals("){")) {
             MyGame.AlertDialogMessage = ("Пропущен ОТКРЫВАЮЩИЙ тег!");
-            start = symbolslENGTH;
-            stop = symbolslENGTH + MainLine[LoopElement].length();
+            SELECTOR(MainLine[LoopElement], text, symbolslENGTH);
             kodERROR = true;
         }
 
         String LoopComands = "";
-        int length = idetifyBODY(MainLine, LoopElement);
+        int length = idetifyBODY(MainLine, LoopElement,text);
         LoopComands += MainLine[LoopElement].substring(MainLine[LoopElement].indexOf("{") + 1, MainLine[LoopElement].length()) + ";";
         for (int g = 1; g < length; g++) {
             LoopComands += MainLine[LoopElement + g] + ";";
@@ -145,7 +142,7 @@ class KodParser {
         if (!kodERROR) kodParser(LoopComands);
     }
 
-    private int idetifyBODY(String MainLine[], int LoopElement) {
+    private int idetifyBODY(String MainLine[], int LoopElement,String text) {
         boolean enLOOP_EXIST = false;
         String line[] = new String[MainLine.length - LoopElement];
         line[0] = MainLine[LoopElement].substring(MainLine[LoopElement].indexOf("{") + 1, MainLine[LoopElement].length());
@@ -160,8 +157,7 @@ class KodParser {
             } else if (line[i].contains("}")) enLOOP_EXIST = false;
         }
         MyGame.AlertDialogMessage = ("Провущен ЗАКРЫВАЮЩИЙ тег!");
-        start = symbolslENGTH;
-        stop = symbolslENGTH + line[0].length();
+        SELECTOR(MainLine[LoopElement], text, symbolslENGTH);
         kodERROR = true;
 
         return -1;
@@ -174,13 +170,13 @@ class KodParser {
             kodERROR = true;
             return true;
         }
-        //else if (line.contains("(")&&line.contains(")")&&!line.endsWith(")")){
-        //    AlertDialogMessage = "После:\n"+line.substring(0,line.indexOf(")")+1)+"\nОжидается знак ';'.";
-        //    start =  symbolslENGTH;
-        //   stop = symbolslENGTH+OriginLine.indexOf(")")+1;
-        //    kodERROR=true;
-        //   return true;
-        //}
+        else if (!line.contains("repeat")&&line.contains("(")&&line.contains(")")&&!line.endsWith(")")){
+            MyGame.AlertDialogMessage = "После:\n"+line.substring(0,line.indexOf(")")+1)+"\nОжидается знак ';'.";
+            SELECTOR(OriginLine, text, symbolslENGTH);
+           stop = symbolslENGTH+OriginLine.indexOf(")")+1;
+            kodERROR=true;
+           return true;
+        }
         else return false;
     }
 
@@ -256,7 +252,7 @@ class KodParser {
         else stop = symbolslENGTH + OriginLine.length() + 1;
     }
 
-    public void setAction(int action) {
+     void setAction(int action) {
         this.action = action;
     }
 }

@@ -2,16 +2,18 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class Robot {
+ class Robot {
     float x,y;
+     int sqX,sqY;
     int size;
-    int screenX,screenY;
-    ImageView body,eye;
+    private int screenX,screenY;
+    private ImageView body,eye;
     AnimationDrawable anim_body,anim_eye;
     TranslateAnimation TranslateAnimation;
     Robot (Activity main, float x, float y, int size,int screenX,int screenY){
@@ -33,12 +35,14 @@ public class Robot {
         anim_eye.start();
     }
 
-    public void RobotMove (float y, float x){
+     void RobotMove (float y, float x,int sqY,int sqX){
         TranslateAnimation = new TranslateAnimation(this.x-screenX/61,x-screenX/61,this.y-screenY/17,y-screenY/17);
         TranslateAnimation.setDuration(MyGame.onTick);
         TranslateAnimation.setFillAfter(true);
         body.startAnimation(TranslateAnimation);
         eye.startAnimation(TranslateAnimation);
         this.x=x; this.y=y;
+         this.sqX=sqX;this.sqY=sqY;
     }
+
 }
