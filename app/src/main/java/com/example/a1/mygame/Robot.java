@@ -36,7 +36,7 @@ import android.widget.RelativeLayout;
     }
 
      void RobotMove (float y, float x,int sqY,int sqX){
-        TranslateAnimation = new TranslateAnimation(this.x-screenX/61,x-screenX/61,this.y-screenY/17,y-screenY/17);
+        TranslateAnimation = new TranslateAnimation(this.x,x,this.y-screenY/17,y-screenY/17);
         TranslateAnimation.setDuration(MyGame.onTick);
         TranslateAnimation.setFillAfter(true);
         body.startAnimation(TranslateAnimation);

@@ -70,9 +70,9 @@ public class MyGame extends Activity {
         for (int y = 0; y < square.length; y++) {
             for (int x = 0; x < square[0].length; x++) {
                 switch (level_key[y][x]) {
-                    case (1):square[y][x] = new Square_lava(this, (size * x) + screenX/61, (size * y) + screenY/17, size);
+                    case (1):square[y][x] = new Square_lava(this, (size * x), (size * y) + screenY/17, size);
                         break;
-                    default:square[y][x] = new Square_empty(this, (size * x) + screenX/61, (size * y) + screenY/17, size);
+                    default:square[y][x] = new Square_empty(this, (size * x), (size * y) + screenY/17, size);
                         break;
                 }
             }

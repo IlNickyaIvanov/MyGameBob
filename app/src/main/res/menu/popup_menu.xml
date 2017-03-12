@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/up"
+        android:title="вверх"
+        />
+    <item
+        android:id="@+id/down"
+        android:title="вниз"
+        />
+    <item
+    android:id="@+id/right"
+    android:title="направо"
+    />
+    <item
+        android:id="@+id/left"
+        android:title="налево"
+        />
+    <item
+        android:id="@+id/repeat"
+        android:title="повтори"
+        />
+
+</menu>
