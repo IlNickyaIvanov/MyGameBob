@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class Settings extends Activity {
+public class ActivitySettings extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

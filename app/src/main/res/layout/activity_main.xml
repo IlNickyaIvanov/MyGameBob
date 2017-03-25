@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.a1.mygame.MainActivity"
+    tools:context="com.example.a1.mygame.ActivityMain"
     android:background="@color/bg_color">
+
+            <at.markushi.ui.CircleButton
+                android:src="@drawable/playicon"
+                app:cb_color="#00ff72"
+                android:onClick="onClickPlay"
+                app:cb_pressedRingWidth="8dip"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_height="175dp"
+                android:layout_width="175dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bob_name"
         android:id="@+id/textView"
         android:textSize="50sp"
         android:textStyle="bold"
@@ -19,57 +29,41 @@
         android:layout_gravity="center"
         />
 
-    <TextView
-        android:text="@string/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/textView2"
-        android:textSize="20sp"
+
+    <ImageButton
+        android:background="@drawable/set_btn"
+        android:id="@+id/imageButton2"
+        android:onClick="onClickSettings"
+        android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center"
-        android:textColor="@color/my_color" />
+        android:layout_width="75dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="75dp" />
 
-    <Button
-        android:text="@string/play"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:id="@+id/button"
-        android:onClick="onClickPlay"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:text="@string/settings"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:onClick="onClickSettings"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button2" />
-
-    <Button
-        android:text="@string/how_to_play"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
+    <ImageButton
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:onClick="OnClickHowToPlay"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button"
-        />
+        android:background="@drawable/rule_btn"
+        android:id="@+id/imageButton1"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <Button
-        android:text="Секретная фича"
-        android:layout_width="wrap_content"
+    <TextView
+        android:text="@string/version"
         android:layout_height="wrap_content"
-        android:id="@+id/button4"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:onClick="OnClickSecret" />
+        android:id="@+id/textView2"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:textColor="@color/my_color"
+        android:layout_width="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

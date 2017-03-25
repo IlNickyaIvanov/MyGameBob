@@ -1,8 +1,9 @@
 package com.example.a1.mygame;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -12,8 +13,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MyGame extends Activity {
-    private static int StartX,StartY;
+public class ActivitySinglePlayer extends FragmentActivity {
+    static int StartX,StartY;
+    static boolean RestartRobotXY=true;
     private static int EndX,EndY;
 
     final static int onTick = 1000;//скорость движение робота 'млс'
@@ -58,14 +60,27 @@ public class MyGame extends Activity {
 
         MyTimer timer = new MyTimer();timer.start();
 
+        LEVEL_GETTER();
+
+        robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenY,onTick,1);//!ВАЖНО!создание робота в [0][0]
+        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX,0);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+        kodParser = new KodParser(StartX,StartY,square);//СОЗДАНИЕ "ПАРСЕРА"
+        // И ПЕРЕДАЧА НАЧАЛЬНЫХ КООРДИНАТ ДЛЯ СИНХРОНИЗАЦИИ c положением робота
+
+        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
+            Tutorial tutorial = new Tutorial(LEVEL_NUM, this);
+        }
+        }
+    void LEVEL_GETTER(){
         LEVEL_NUM = getIntent().getIntExtra("level_num", 1);
-        level_key=LevelMenu.getLevel(LEVEL_NUM);//ключ создания уровня
+        level_key= ActivityLevelMenu.getLevel(LEVEL_NUM);//ключ создания уровня
         square = new Square[level_key.length][level_key[0].length];
         size=screenX/2/square[0].length;//РАЗМЕР КЛЕТОК
-        StartX = LevelMenu.StartX;//ЗАДАНИЕ-
-        StartY = LevelMenu.StartY;//-НАЧАЛЬНЫХ КООРДИНАТ
-        EndX = LevelMenu.EndX;// И КОНЕЧНЫХ
-        EndY = LevelMenu.EndY;
+        StartX = ActivityLevelMenu.StartX;//ЗАДАНИЕ-
+        StartY = ActivityLevelMenu.StartY;//-НАЧАЛЬНЫХ КООРДИНАТ
+        EndX = ActivityLevelMenu.EndX;// И КОНЕЧНЫХ
+        EndY = ActivityLevelMenu.EndY;
+        ActivitySinglePlayer.RestartRobotXY=true;
 
         for (int y = 0; y < square.length; y++) {
             for (int x = 0; x < square[0].length; x++) {
@@ -78,15 +93,7 @@ public class MyGame extends Activity {
             }
         }
 
-        robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenX,screenY);//!ВАЖНО!создание робота в [0][0]
-        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
-        kodParser = new KodParser(StartX,StartY,square);//СОЗДАНИЕ "ПАРСЕРА"
-        // И ПЕРЕДАЧА НАЧАЛЬНЫХ КООРДИНАТ ДЛЯ СИНХРОНИЗАЦИИ c положением робота
-
-        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
-            Tutorial tutorial = new Tutorial(LEVEL_NUM, this);
-        }
-        }
+    }
 
 
 
@@ -98,8 +105,8 @@ public class MyGame extends Activity {
     }
     public void onClickStart(View view) {
         if (!move) {
-            if(!Tutorial.IsTutorial) {
-                robot.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+            if(RestartRobotXY) {
+                robot.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX,0);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
                 kodParser.x = StartX;
                 kodParser.y = StartY;
             }
@@ -121,14 +128,6 @@ public class MyGame extends Activity {
         super.onPause();
         pause=false;
     }
-    @Override
-    public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis())
-            super.onBackPressed();
-        else
-            Utils.makeToast(this,"Нажми еще раз для выхода.");
-        back_pressed = System.currentTimeMillis();
-    }
     public void update() {
         //начало выполнения программы
         if (move){//включается при нажатии ПУСК
@@ -144,13 +143,14 @@ public class MyGame extends Activity {
                 robot.RobotMove(
                         square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
                         square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
-                        kodParser.ARy[count],kodParser.ARx[count]);//перемещение в клетку [y][x]
+                        kodParser.ARy[count],kodParser.ARx[count],0);//перемещение в клетку [y][x]
                 count++;//перебор элементов массивов "положения" до action
             }
         }
 
         else {textView.setText("  робот стоит "+kodParser.y+" "+kodParser.x);
-            robot.RobotMove(robot.y,robot.x,robot.sqY,robot.sqX); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
+            //robot.RobotMove(robot.y,robot.x,robot.sqY,robot.sqX); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
+            robot.MoveMySelf();
         }
 
 
@@ -189,7 +189,7 @@ public class MyGame extends Activity {
         }
     }
 
-    private void showPopupMenu(View v) {
+     void showPopupMenu(View v) {
         PopupMenu popupMenu = new PopupMenu(this, v);
         popupMenu.inflate(R.menu.popup_menu); // Для Android 4.0
         popupMenu
@@ -232,5 +232,17 @@ public class MyGame extends Activity {
             else text2+=line[i]+";";
         }
         return text2;
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ActivitySinglePlayer.this, ActivityLevelMenu.class);
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            this.startActivity(intent);
+            this.finish();
+            super.onBackPressed();
+        }
+        else
+            Utils.makeToast(this,"Нажми еще раз для выхода.");
+        back_pressed = System.currentTimeMillis();
     }
 }

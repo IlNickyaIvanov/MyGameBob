@@ -3,7 +3,7 @@ package com.example.a1.mygame;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class HowToPlay extends Activity {
+public class ActivityHowToPlay extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

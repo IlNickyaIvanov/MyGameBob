@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityMain"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,19 +17,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ActivityLevelMenu" />
         <activity
-            android:name=".LevelMenu"
-            />
-        <activity
-            android:name=".MyGame"
+            android:name=".ActivitySinglePlayer"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name=".HowToPlay"
+            android:name=".ActivityHowToPlay"
             android:label="@string/how_title" />
-        <activity
-            android:name=".Settings" />
+        <activity android:name=".ActivitySettings" />
+        <activity android:name=".ActivityTwoPlayers"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>

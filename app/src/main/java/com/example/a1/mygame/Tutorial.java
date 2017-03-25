@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
     private Activity activity;
     private boolean pause;
     private static boolean isTask;
-    private int task;
     private int MessageCount;
     private String tutor[];
     private String tutor1[]={
@@ -35,6 +34,7 @@ import android.os.CountDownTimer;
         this.level=level;
         switch (level){
             case 1: tutor=tutor1;
+                ActivitySinglePlayer.RestartRobotXY=false;
                 break;
             case 2:tutor=tutor2;
                 break;
@@ -51,7 +51,8 @@ import android.os.CountDownTimer;
                 MessageCount++; IsTutorial=true;
             }
             else {Utils.TwoButtonAllertDialog(activity,"Урок "+level+" завершен!",
-                    "Поздравляем, Вы прошли этот урок!","Выбрать уровень","Следующий уровень",level);
+                    "Поздравляем, Вы прошли этот урок!","Меню","Следующий",level);
+                ActivitySinglePlayer.RestartRobotXY=true;
                 pause = true;IsTutorial=false;}
         }
 
@@ -59,17 +60,23 @@ import android.os.CountDownTimer;
     private void LevelTasker(int i){
         if (MessageCount==4 && i==1){
             if(!isTask){isTask=true;}
-            if (MyGame.robot.sqX==2 && MyGame.robot.sqY==0)isTask=false;
+            if (ActivitySinglePlayer.robot.sqX==2 && ActivitySinglePlayer.robot.sqY==0)isTask=false;
         }
         if (MessageCount==6 && i==1){
-            if(!isTask){isTask=true;MyGame.NOTshowPopUp =true;}
-            if (MyGame.robot.sqX==0 && MyGame.robot.sqY==0) {
-                isTask = false;MyGame.NOTshowPopUp =false;
+            if(!isTask){isTask=true;
+                ActivitySinglePlayer.NOTshowPopUp =true;}
+            if (ActivitySinglePlayer.robot.sqX==0 && ActivitySinglePlayer.robot.sqY==0) {
+                isTask = false;
+                ActivitySinglePlayer.NOTshowPopUp =false;
             }
         }
         if (MessageCount==3 && i == 2){
             if(!isTask){isTask=true;}
-            if (MyGame.robot.sqX==5 && (MyGame.robot.sqY==1 || MyGame.robot.sqY==2))isTask=false;
+            if (ActivitySinglePlayer.robot.sqX==5 && (ActivitySinglePlayer.robot.sqY==1 || ActivitySinglePlayer.robot.sqY==2))isTask=false;
+        }
+        if (MessageCount==4 && i == 2){
+            if(!isTask){isTask=true;}
+            if (ActivitySinglePlayer.robot.sqX==0 && (ActivitySinglePlayer.robot.sqY==0))isTask=false;
         }
     }
     private class MyTimer extends CountDownTimer {

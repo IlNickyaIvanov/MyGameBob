@@ -2,12 +2,8 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class Utils {
@@ -17,7 +13,7 @@ public class Utils {
         Toast.makeText(main,text,Toast.LENGTH_LONG).show();
     }
     public static void AlertDialog(Activity main, String title, String Message, String TextButton ){
-        MyGame.AlertDialogMessage=null;
+        ActivitySinglePlayer.AlertDialogMessage=null;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(main);
         AlertDialogShow(builder,title,Message,TextButton);
@@ -46,20 +42,19 @@ public class Utils {
         AlertDialog.Builder ad = new AlertDialog.Builder(main);
         ad.setTitle(title);  // заголовок
         ad.setMessage(message); // сообщение
-        ad.setPositiveButton(TextLeftButton, new DialogInterface.OnClickListener() {
+        ad.setNegativeButton(TextLeftButton, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Intent intent = new Intent(main, LevelMenu.class);
+                Intent intent = new Intent(main, ActivityLevelMenu.class);
                 main.startActivity(intent);
             }
         });
-        ad.setNegativeButton(TextRightButton, new DialogInterface.OnClickListener() {
+        ad.setPositiveButton(TextRightButton, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-              LevelMenu lvl_menu=new LevelMenu();
-               if(level<2)lvl_menu.SELECT_LEVEL(level+1,main);
-                else {Intent intent = new Intent(main, LevelMenu.class);
-                   AlertDialog(main,"Уровень", "Следующий уровень находится в разработке.","В главное меню");
+                Intent intent = new Intent(main, ActivityLevelMenu.class);
+               if(level<2) intent.putExtra("level_num", level+1);
+                else intent.putExtra("level_num",0);
                 main.startActivity(intent);
-               }
+                main.finish();
             }
         });
         ad.setCancelable(true);

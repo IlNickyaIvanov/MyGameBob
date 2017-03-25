@@ -4,20 +4,22 @@ class KodParser {
     private Square square[][];
     int action;
     int x, y;//положение робота
-    private boolean pause, kodERROR;//пауза для ошибок
+
+    private boolean pause;
+
+    private boolean kodERROR;//пауза для ошибок
+
     private boolean loop = false;
     private static int symbolslENGTH;
     int start, stop;
     int ARx[] = new int[100];//массивы пошаговых
     int ARy[] = new int[100];//координат положения робота
     String ComandName[] = new String[100];//команды
-
     KodParser(int StartX, int StartY, Square square[][]) {
         this.square = square;
         x = StartX;
         y = StartY;
     }
-
 
     int kodParser(String text) {
         pause = false;
@@ -25,7 +27,7 @@ class KodParser {
         start = 0;
         stop = 0;
         if (text.replaceAll("\n", "").replaceAll(";", "").isEmpty()) {
-            MyGame.AlertDialogMessage = "А где сами команды?";
+            ActivitySinglePlayer.AlertDialogMessage = "А где сами команды?";
             pause = true;
             kodERROR = true;
         } else try {
@@ -35,7 +37,7 @@ class KodParser {
                 line = text.replaceAll("\n", "").split(";");
                 MainLine = text.split(";");
             } catch (Throwable t) {//выделение подстрок по символу ";"
-                MyGame.AlertDialogMessage = "Пожалуйста,проверьте разделение команд по ';'.";
+                ActivitySinglePlayer.AlertDialogMessage = "Пожалуйста,проверьте разделение команд по ';'.";
                 kodERROR = true;
                 return action;
             }
@@ -59,12 +61,13 @@ class KodParser {
                 else loop = false;
             }
         } catch (Throwable t) {
-            MyGame.AlertDialogMessage = "Пожалуйста, проверьте правильность написания команд.";
+            ActivitySinglePlayer.AlertDialogMessage = "Пожалуйста, проверьте правильность написания команд.";
             kodERROR = true;
         }
         symbolslENGTH = 0;
         return action;
     }
+
 
     private int executor(String cOmAnD, int num, int Element, String MainLine[],String text) {
         int LOOP_JUMP = 0;
@@ -75,28 +78,28 @@ class KodParser {
                     if (y != 0 && !IS_LAVA(-1, 0)) y--;
                     else if (!pause) {
                         pause = true;
-                        MyGame.AlertDialogMessage = "Вверху клеток нет.";
+                        ActivitySinglePlayer.AlertDialogMessage = "Вверху клеток нет.";
                     }
                     break;
                 case "down":
                     if (y != square.length - 1 && !IS_LAVA(1, 0)) y++;
                     else if (!pause) {
                         pause = true;
-                        MyGame.AlertDialogMessage = "Внизу клеток нет.";
+                        ActivitySinglePlayer.AlertDialogMessage = "Внизу клеток нет.";
                     }
                     break;
                 case "right":
                     if (x != square[0].length - 1 && !IS_LAVA(0, 1)) x++;
                     else if (!pause) {
                         pause = true;
-                        MyGame.AlertDialogMessage = "Справа клеток нет.";
+                        ActivitySinglePlayer.AlertDialogMessage = "Справа клеток нет.";
                     }
                     break;
                 case "left":
                     if (x != 0 && !IS_LAVA(0, -1)) x--;
                     else if (!pause) {
                         pause = true;
-                        MyGame.AlertDialogMessage = "Слева клеток нет.";
+                        ActivitySinglePlayer.AlertDialogMessage = "Слева клеток нет.";
                     }
                     break;
                 case "repeat":
@@ -128,7 +131,7 @@ class KodParser {
         int index = MainLine[LoopElement].replaceAll(" ", "").indexOf(")");
         String test = MainLine[LoopElement].replaceAll(" ", "").substring(index, index + 2);
         if (!test.equals("){")) {
-            MyGame.AlertDialogMessage = ("Пропущен ОТКРЫВАЮЩИЙ тег!");
+            ActivitySinglePlayer.AlertDialogMessage = ("Пропущен ОТКРЫВАЮЩИЙ тег!");
             SELECTOR(MainLine[LoopElement], text, symbolslENGTH);
             kodERROR = true;
         }
@@ -156,7 +159,7 @@ class KodParser {
                 return i;
             } else if (line[i].contains("}")) enLOOP_EXIST = false;
         }
-        MyGame.AlertDialogMessage = ("Провущен ЗАКРЫВАЮЩИЙ тег!");
+        ActivitySinglePlayer.AlertDialogMessage = ("Провущен ЗАКРЫВАЮЩИЙ тег!");
         SELECTOR(MainLine[LoopElement], text, symbolslENGTH);
         kodERROR = true;
 
@@ -165,13 +168,13 @@ class KodParser {
 
     private boolean CHECK_DELIMITOR(String line, String OriginLine, String text) {
         if (line.equals("")) {
-            MyGame.AlertDialogMessage = "Лишний знак ';'";
+            ActivitySinglePlayer.AlertDialogMessage = "Лишний знак ';'";
             SELECTOR(OriginLine, text, symbolslENGTH);
             kodERROR = true;
             return true;
         }
         else if (!line.contains("repeat")&&line.contains("(")&&line.contains(")")&&!line.endsWith(")")){
-            MyGame.AlertDialogMessage = "После:\n"+line.substring(0,line.indexOf(")")+1)+"\nОжидается знак ';'.";
+            ActivitySinglePlayer.AlertDialogMessage = "После:\n"+line.substring(0,line.indexOf(")")+1)+"\nОжидается знак ';'.";
             SELECTOR(OriginLine, text, symbolslENGTH);
            stop = symbolslENGTH+OriginLine.indexOf(")")+1;
             kodERROR=true;
@@ -183,7 +186,7 @@ class KodParser {
     private boolean IS_COMAND_EXIST(String cOmAnD, String OriginLine, String text) {
         if (!cOmAnD.equals("up") && !cOmAnD.equals("down")
                 && !cOmAnD.equals("left") && !cOmAnD.equals("right") && !cOmAnD.equals("repeat")) {
-            MyGame.AlertDialogMessage = "Неизвестная команда:\n" + cOmAnD;
+            ActivitySinglePlayer.AlertDialogMessage = "Неизвестная команда:\n" + cOmAnD;
             SELECTOR(OriginLine, text, symbolslENGTH);
             kodERROR = true;
             return true;
@@ -196,7 +199,7 @@ class KodParser {
             num = Integer.valueOf(line.substring(line.indexOf('(') + 1, line.indexOf(')')));
             return num;
         } catch (NumberFormatException e) {
-            MyGame.AlertDialogMessage = "Нет такого числа.";
+            ActivitySinglePlayer.AlertDialogMessage = "Нет такого числа.";
             if (OriginLine.contains("("))
                 start = symbolslENGTH + OriginLine.indexOf("(");
             else start = symbolslENGTH + line.length() - 1;
@@ -233,13 +236,9 @@ class KodParser {
         }
         if (square[y][x].ID_NUMBER == 1) {
             pause = true;
-            MyGame.AlertDialogMessage = "Впереди ЛАВА!";
+            ActivitySinglePlayer.AlertDialogMessage = "Впереди ЛАВА!";
         }
         return (pause);
-    }
-
-    boolean isKodERROR() {
-        return kodERROR;
     }
 
     private void SELECTOR(String OriginLine, String text, int symbolslENGTH) {
@@ -254,6 +253,16 @@ class KodParser {
 
      void setAction(int action) {
         this.action = action;
+    }
+
+    public void setKodERROR(boolean kodERROR) {
+        this.kodERROR = kodERROR;
+    }
+    boolean isKodERROR() {
+        return kodERROR;
+    }
+    public boolean isPause() {
+        return pause;
     }
 }
 

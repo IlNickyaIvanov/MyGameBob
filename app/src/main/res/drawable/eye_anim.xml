@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
-    <item android:drawable="@drawable/eyes" android:duration="40"/>
+    <item android:drawable="@drawable/eyes6" android:duration="40"/>
     <item android:drawable="@drawable/eye0" android:duration="40"/>
     <item android:drawable="@drawable/eye1" android:duration="40"/>
     <item android:drawable="@drawable/eye2" android:duration="40"/>
@@ -11,5 +11,5 @@
     <item android:drawable="@drawable/eye3" android:duration="40"/>
     <item android:drawable="@drawable/eye2" android:duration="40"/>
     <item android:drawable="@drawable/eye1" android:duration="40"/>
-    <item android:drawable="@drawable/eyes" android:duration="2000"/>
+    <item android:drawable="@drawable/eyes6" android:duration="2000"/>
 </animation-list>

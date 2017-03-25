@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,8 +17,8 @@ class MiniGameGhost  {
     private ImageView image;
 
     MiniGameGhost(Activity main){
-        screenWidth = MainActivity.screenWidth;
-        screenHeight = MainActivity.screenHeight;
+        screenWidth = ActivityMain.screenWidth;
+        screenHeight = ActivityMain.screenHeight;
         live = true;
         bornSize();
         bornLocation();
@@ -59,8 +58,8 @@ class MiniGameGhost  {
         AlphaAnimation.setDuration(200);
         image.startAnimation(AlphaAnimation);
         live = false;
-         MainActivity.liveGhosts--;
-        MainActivity.diedGhosts++;
+         ActivityMain.liveGhosts--;
+        ActivityMain.diedGhosts++;
         FrameLayout parent = (FrameLayout) image.getParent();
         parent.removeView(image);
     }

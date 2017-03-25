@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class ActivityMain extends Activity {
     private boolean pause;
     private final int miniGameStart=1000;
     private int MaxNGhost=50;
@@ -21,7 +21,6 @@ public class MainActivity extends Activity {
     private static long back_pressed;
     MiniGameGhost ghost[] = new MiniGameGhost[200];
     TextView textViewVersion,textViewWelcome;
-    Robot robot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,6 @@ public class MainActivity extends Activity {
         textViewVersion.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ObelixPro.ttf"));
         MyTimer timer = new MyTimer();
         timer.start();
-        robot = new Robot(this,screenWidth/4,screenHeight/2,screenWidth/2,screenHeight,screenWidth);
     }
     @Override
     protected void onPause(){
@@ -52,57 +50,33 @@ public class MainActivity extends Activity {
         count=0;
         pause=false;
     }
-    @Override
-    public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis())
-            super.onBackPressed();
-        else
-            Utils.makeToast(this,"Нажми еще раз для выхода.");
-        back_pressed = System.currentTimeMillis();
-    }
+
 
     public void onClickPlay(View view) {
         if (liveGhosts<=0){
-        Intent intent = new Intent (MainActivity.this,LevelMenu.class);
+        Intent intent = new Intent (ActivityMain.this,ActivityLevelMenu.class);
         startActivity(intent);}
 
     }
     public void OnClickHowToPlay(View view) {
         if (liveGhosts<=0) {
-            Intent intent = new Intent(MainActivity.this, HowToPlay.class);
+            Intent intent = new Intent(ActivityMain.this, ActivityHowToPlay.class);
             startActivity(intent);
         }
     }
     public void onClickSettings(View view) {
         if (liveGhosts<=0){
-        Intent intent = new Intent(MainActivity.this, Settings.class);
+        Intent intent = new Intent(ActivityMain.this, ActivitySettings.class);
         startActivity(intent);}
     }
-    public void OnClickSecret(View view) {
-        if(liveGhosts==0)count=999;
-
-           }
-
-    public void onClickImage(View view) {
-        if (liveGhosts<=0){
-        if (robot.anim_body.isRunning()){ robot.anim_body.stop();
-            robot.anim_eye.stop();}
-        else {
-            robot.anim_body.start();
-            robot.anim_eye.start();
-        }}
-    }
-
-
 
     void update(){
         count++;//счетчик
-        if (liveGhosts==0) {textViewVersion.setText(R.string.version);textViewWelcome.setText(R.string.bob_name);}
+        if (liveGhosts==0) {textViewVersion.setText(R.string.version);textViewVersion.setTextColor(getResources().getColor(R.color.colorPrimaryDark));}
         if (count>=miniGameStart && liveGhosts<MaxNGhost && nGhosts<ghost.length) {miniGameGhost();}
         for (int i = 0; i < nGhosts; i++) {if (ghost[i].live) ghost[i].move(); else diedGhosts++;}
     }
     void miniGameGhost (){
-        textViewWelcome.setText(R.string.attack);
         if  (count==miniGameStart){ghost[nGhosts]=new MiniGameGhost(this);nGhosts++; liveGhosts++;
             Utils.AlertDialog(this,"ВНИМАНИЕ!",
                     "Вас не было слишком долго...\nЩенкам стало скучно и теперь они жаждут ласки!","погладить всех");}
@@ -126,5 +100,15 @@ public class MainActivity extends Activity {
         public void onTick(long millisUntilFinished) {if(!pause)update();}
         public void onFinish(){
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis())
+            super.onBackPressed();
+        else
+            Utils.makeToast(this,"Нажми еще раз для выхода.");
+        back_pressed = System.currentTimeMillis();
     }
 }

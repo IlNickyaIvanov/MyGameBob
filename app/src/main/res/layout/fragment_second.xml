@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:text="Второй Режим\nB\nB\nB\nB\n0_0"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="45dp"
+
+    <Button
+        android:text="ТЕСТ"
+        android:id="@+id/twoplayers"
+        android:onClick="onLevelBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvLabel"  />
+        />
 </LinearLayout>
