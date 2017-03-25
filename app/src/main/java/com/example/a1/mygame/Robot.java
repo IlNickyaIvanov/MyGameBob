@@ -12,11 +12,12 @@ class Robot {
     int size;
     private int onTick;
     private int screenY;
+    private int BUSY;
     private ImageView body, eye;
     AnimationDrawable anim_body, anim_eye;
     TranslateAnimation translateAnimation,MoveMySelf;
 
-    Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType) {
+    Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype) {
         body = new ImageView(main);
         eye = new ImageView(main);
         this.x = x;
@@ -24,6 +25,7 @@ class Robot {
         this.size = size;
         this.screenY = screenY;
         this.onTick=onTick;
+        this.BUSY=BUSYtype;
         main.addContentView(body, new RelativeLayout.LayoutParams(size, size));
         main.addContentView(eye, new RelativeLayout.LayoutParams(size, size));
         CreateAnim(bodyType);
@@ -45,21 +47,28 @@ class Robot {
         anim_eye.start();
     }
 
-    void RobotMove(float y, float x, int sqY, int sqX,int setY) {
-        translateAnimation = new TranslateAnimation(this.x, x, this.y - screenY / 17, y - screenY / 17+setY);
+    void RobotMove(float y, float x, int sqY, int sqX,boolean isBUSY) {
+        int n=0;
+        if (isBUSY) n=BUSY;
+        translateAnimation = new TranslateAnimation(this.x, x, this.y - screenY / 17, y - screenY / 17+n);
         translateAnimation.setDuration(onTick);
         translateAnimation.setFillAfter(true);
         body.startAnimation(translateAnimation);
         eye.startAnimation(translateAnimation);
         translateAnimation.hasEnded();
         this.x = x;
-        this.y = y+setY;
+        this.y = y;
         this.sqX = sqX;
         this.sqY = sqY;
     }
-    void MoveMySelf(){
-        MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17, this.y - screenY / 17);
-        MoveMySelf.setDuration(onTick*2);
+    void MoveMySelf(boolean isBUSY){
+        int n=0;
+        if (isBUSY) n=BUSY;
+        if (ActivityTwoPlayers.move)
+            MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17, this.y - screenY / 17+n);
+        else
+            MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17+n, this.y - screenY / 17+n);
+        MoveMySelf.setDuration(onTick);
         MoveMySelf.setFillAfter(true);
         body.startAnimation(MoveMySelf);
         eye.startAnimation(MoveMySelf);

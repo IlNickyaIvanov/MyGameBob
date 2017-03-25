@@ -18,7 +18,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
     static boolean RestartRobotXY=true;
     private static int EndX,EndY;
 
-    final static int onTick = 1000;//скорость движение робота 'млс'
+    private final int onTick = 1000;//скорость движение робота 'млс'
 
     boolean pause, move;
     static boolean NOTshowPopUp;
@@ -37,7 +37,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
     static Square square[][];
 
     static KodParser kodParser;
-    static Robot robot;
+    private Robot robot;
 
     private static long back_pressed;
 
@@ -62,14 +62,14 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
         LEVEL_GETTER();
 
-        robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenY,onTick,1);//!ВАЖНО!создание робота в [0][0]
-        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX,0);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+        robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenY,onTick,1,0);//!ВАЖНО!создание робота в [0][0]
+        robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX,false);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
         kodParser = new KodParser(StartX,StartY,square);//СОЗДАНИЕ "ПАРСЕРА"
         // И ПЕРЕДАЧА НАЧАЛЬНЫХ КООРДИНАТ ДЛЯ СИНХРОНИЗАЦИИ c положением робота
 
-        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
-            Tutorial tutorial = new Tutorial(LEVEL_NUM, this);
-        }
+//        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
+//            Tutorial tutorial = new Tutorial(LEVEL_NUM, this);
+//        }
         }
     void LEVEL_GETTER(){
         LEVEL_NUM = getIntent().getIntExtra("level_num", 1);
@@ -106,7 +106,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
     public void onClickStart(View view) {
         if (!move) {
             if(RestartRobotXY) {
-                robot.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX,0);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
+                robot.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX,false);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
                 kodParser.x = StartX;
                 kodParser.y = StartY;
             }
@@ -143,14 +143,14 @@ public class ActivitySinglePlayer extends FragmentActivity {
                 robot.RobotMove(
                         square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
                         square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
-                        kodParser.ARy[count],kodParser.ARx[count],0);//перемещение в клетку [y][x]
+                        kodParser.ARy[count],kodParser.ARx[count],false);//перемещение в клетку [y][x]
                 count++;//перебор элементов массивов "положения" до action
             }
         }
 
         else {textView.setText("  робот стоит "+kodParser.y+" "+kodParser.x);
             //robot.RobotMove(robot.y,robot.x,robot.sqY,robot.sqX); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
-            robot.MoveMySelf();
+            robot.MoveMySelf(false);
         }
 
 
@@ -164,7 +164,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
                 Utils.AlertDialog(this,"Дальше не могу.",AlertDialogMessage,"ок");
                 editText.setSelection(kodParser.start, kodParser.stop);}
             //по прохождению уровня...
-            else if (kodParser.x==EndX && kodParser.y == EndY && LEVEL_NUM>=1 && !Tutorial.isTask())
+            else if (kodParser.x==EndX && kodParser.y == EndY && LEVEL_NUM>=1 /*&& !Tutorial.isTask()*/)
                 Utils.AlertDialog(this,"Уровень "+LEVEL_NUM+"  Пройден!",
                         "Ух ты! А ты не такой салага, как я думал...",
                         "ок");

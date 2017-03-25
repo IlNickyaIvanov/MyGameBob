@@ -40,11 +40,11 @@ import android.os.CountDownTimer;
                 break;
             default: pause=true; break;
         }
-        Tutorial.MyTimer timer = new Tutorial.MyTimer();
-        timer.start();
+//        Tutorial.MyTimer timer = new Tutorial.MyTimer();
+//        timer.start();
     }
     private void update(){
-        LevelTasker(level);
+//        LevelTasker(level);
         if (!isTask && !Utils.isAlertDialogVisible()) {
             if (MessageCount<tutor.length) {
                 Utils.AlertDialog(activity, "Урок "+level, tutor[MessageCount], "ок");
@@ -57,37 +57,37 @@ import android.os.CountDownTimer;
         }
 
     }
-    private void LevelTasker(int i){
-        if (MessageCount==4 && i==1){
-            if(!isTask){isTask=true;}
-            if (ActivitySinglePlayer.robot.sqX==2 && ActivitySinglePlayer.robot.sqY==0)isTask=false;
-        }
-        if (MessageCount==6 && i==1){
-            if(!isTask){isTask=true;
-                ActivitySinglePlayer.NOTshowPopUp =true;}
-            if (ActivitySinglePlayer.robot.sqX==0 && ActivitySinglePlayer.robot.sqY==0) {
-                isTask = false;
-                ActivitySinglePlayer.NOTshowPopUp =false;
-            }
-        }
-        if (MessageCount==3 && i == 2){
-            if(!isTask){isTask=true;}
-            if (ActivitySinglePlayer.robot.sqX==5 && (ActivitySinglePlayer.robot.sqY==1 || ActivitySinglePlayer.robot.sqY==2))isTask=false;
-        }
-        if (MessageCount==4 && i == 2){
-            if(!isTask){isTask=true;}
-            if (ActivitySinglePlayer.robot.sqX==0 && (ActivitySinglePlayer.robot.sqY==0))isTask=false;
-        }
+//    private void LevelTasker(int i){
+//        if (MessageCount==4 && i==1){
+//            if(!isTask){isTask=true;}
+//            if (ActivitySinglePlayer.robot.sqX==2 && ActivitySinglePlayer.robot.sqY==0)isTask=false;
+//        }
+//        if (MessageCount==6 && i==1){
+//            if(!isTask){isTask=true;
+//                ActivitySinglePlayer.NOTshowPopUp =true;}
+//            if (ActivitySinglePlayer.robot.sqX==0 && ActivitySinglePlayer.robot.sqY==0) {
+//                isTask = false;
+//                ActivitySinglePlayer.NOTshowPopUp =false;
+//            }
+//        }
+//        if (MessageCount==3 && i == 2){
+//            if(!isTask){isTask=true;}
+//            if (ActivitySinglePlayer.robot.sqX==5 && (ActivitySinglePlayer.robot.sqY==1 || ActivitySinglePlayer.robot.sqY==2))isTask=false;
+//        }
+//        if (MessageCount==4 && i == 2){
+//            if(!isTask){isTask=true;}
+//            if (ActivitySinglePlayer.robot.sqX==0 && (ActivitySinglePlayer.robot.sqY==0))isTask=false;
+//        }
     }
-    private class MyTimer extends CountDownTimer {
-        MyTimer(){
-            super(Integer.MAX_VALUE, 5);
-        }
-        public void onTick(long millisUntilFinished) {if(!pause)update();}
-        public void onFinish(){
-        }
-    }
-    static boolean isTask() {
-        return isTask;
-    }
-}
+//    private class MyTimer extends CountDownTimer {
+//        MyTimer(){
+//            super(Integer.MAX_VALUE, 5);
+//        }
+//        public void onTick(long millisUntilFinished) {if(!pause)update();}
+//        public void onFinish(){
+//        }
+//    }
+//    static boolean isTask() {
+//        return isTask;
+//    }
+//}
