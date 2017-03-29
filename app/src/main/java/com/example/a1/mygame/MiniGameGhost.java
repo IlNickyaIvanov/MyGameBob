@@ -1,6 +1,7 @@
 package com.example.a1.mygame;
 
 import android.app.Activity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -28,9 +29,13 @@ class MiniGameGhost  {
         image.setX(x);
         image.setY(y);
         image.setImageResource(R.drawable.robot);
-        image.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-               touch();
+        image.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    touch();
+                }
+                return false;
             }
         });
     }

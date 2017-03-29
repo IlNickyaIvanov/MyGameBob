@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
     private static int EndX,EndY;
 
     private final int onTick = 1000;//скорость движение робота 'млс'
+    static int ComandLimit=100;//лимит команд для робота
 
     boolean pause, move;
     static boolean NOTshowPopUp;
@@ -43,12 +45,13 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
     TextView textView;
     EditText editText;
+    Button buttonCOM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_my_game);
+        setContentView(R.layout.activity_single_player);
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
@@ -57,6 +60,14 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
         textView = (TextView)findViewById(R.id.TextView1);
         editText = (EditText) findViewById(R.id.editText);
+        buttonCOM = (Button)findViewById(R.id.button_com);
+        buttonCOM.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showPopupMenu(view,true);
+                return false;
+            }
+        });
 
         MyTimer timer = new MyTimer();timer.start();
 
@@ -64,7 +75,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
         robot = new Robot(this,square[0][0].x,square[0][0].y,size,screenY,onTick,1,0);//!ВАЖНО!создание робота в [0][0]
         robot.RobotMove(square[StartY][StartX].y,square[StartY][StartX].x,StartY,StartX,false);//ПЕРЕДВИЖЕНИЕ В "СТАРТОВЫЕ"
-        kodParser = new KodParser(StartX,StartY,square);//СОЗДАНИЕ "ПАРСЕРА"
+        kodParser = new KodParser(StartX,StartY,square,ComandLimit);//СОЗДАНИЕ "ПАРСЕРА"
         // И ПЕРЕДАЧА НАЧАЛЬНЫХ КООРДИНАТ ДЛЯ СИНХРОНИЗАЦИИ c положением робота
 
 //        if (LEVEL_NUM==1 || LEVEL_NUM==2||LEVEL_NUM==3) {
@@ -98,11 +109,18 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
 
     public void Comands(View view) {
-        if(!NOTshowPopUp)showPopupMenu(view);
+        if(!NOTshowPopUp)showPopupMenu(view,false);
         else Utils.AlertDialog(this,"Задание "+LEVEL_NUM,
                 "Постарайся выполнить это задание без помощи автоввода.",
                 "ок");
     }
+    public void Operators(View view) {
+        if(!NOTshowPopUp)showPopupMenu(view,false);
+        else Utils.AlertDialog(this,"Задание "+LEVEL_NUM,
+                "Постарайся выполнить это задание без помощи автоввода.",
+                "ок");
+    }
+
     public void onClickStart(View view) {
         if (!move) {
             if(RestartRobotXY) {
@@ -178,6 +196,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
         }
 
     }
+
     class MyTimer extends CountDownTimer {
         MyTimer() {
             super(Integer.MAX_VALUE, onTick);
@@ -189,9 +208,14 @@ public class ActivitySinglePlayer extends FragmentActivity {
         }
     }
 
-     void showPopupMenu(View v) {
+     void showPopupMenu(View v, boolean isLongClick) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-        popupMenu.inflate(R.menu.popup_menu); // Для Android 4.0
+         if (v.getId()==R.id.button_com && !isLongClick)
+             popupMenu.inflate(R.menu.popup_move_menu); // Для Android 4.0
+         else if (v.getId()==R.id.button_com && isLongClick)
+             popupMenu.inflate(R.menu.popup_condition_menu);
+         else if (v.getId()==R.id.button_oper )
+             popupMenu.inflate(R.menu.popup_operators_menu);
         popupMenu
                 .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -204,6 +228,24 @@ public class ActivitySinglePlayer extends FragmentActivity {
                             case R.id.left:editText.getText().insert(editText.getSelectionStart(),"left ;\n");return true;
                             case R.id.repeat:
                                 editText.getText().insert(editText.getSelectionStart(),"repeat (2){\n \n};\n");return true;
+                            case R.id.my_if:
+                                editText.getText().insert(editText.getSelectionStart(),"if ( ){\n \n};\n");return true;
+                            case R.id.my_else:
+                                editText.getText().insert(editText.getSelectionStart(),"if ( ){\n \n}else {\n \n};\n");return true;
+                            case R.id.my_while:
+                                editText.getText().insert(editText.getSelectionStart(),"while ( ){\n \n};\n");return true;
+                            case R.id.con_up:
+                                editText.getText().insert(editText.getSelectionStart(),"up_");return true;
+                            case R.id.con_down:
+                                editText.getText().insert(editText.getSelectionStart(),"down_");return true;
+                            case R.id.con_right:
+                                editText.getText().insert(editText.getSelectionStart(),"right_");return true;
+                            case R.id.con_left:
+                                editText.getText().insert(editText.getSelectionStart(),"left_");return true;
+                            case R.id.con_wall:
+                                editText.getText().insert(editText.getSelectionStart(),"wall");return true;
+                            case R.id.con_sweet:
+                                editText.getText().insert(editText.getSelectionStart(),"sweet");return true;
                             default:return false;
                         }
                     }
@@ -244,5 +286,8 @@ public class ActivitySinglePlayer extends FragmentActivity {
         else
             Utils.makeToast(this,"Нажми еще раз для выхода.");
         back_pressed = System.currentTimeMillis();
+    }
+    public static void setComandLimit(int comandLimit) {
+        ComandLimit = comandLimit;
     }
 }

@@ -103,8 +103,16 @@
                     android:onClick="Comands"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button6"
+                    android:id="@+id/button_com"
                     android:textSize="26sp" />
+
+                <Button
+                    android:text="op"
+                    android:onClick="Operators"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_oper"
+                    android:textSize="24sp" />
 
                 <Button
                     android:text="sw"

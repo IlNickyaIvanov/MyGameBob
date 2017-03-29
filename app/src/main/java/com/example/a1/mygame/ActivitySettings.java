@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class ActivitySettings extends Activity {
 
@@ -20,7 +18,7 @@ public class ActivitySettings extends Activity {
     public void OnClick(View view) {
         PopupMenu popup = new PopupMenu(this, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        inflater.inflate(R.menu.popup_move_menu, popup.getMenu());
         popup.show();
 
     }

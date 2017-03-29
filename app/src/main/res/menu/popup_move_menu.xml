@@ -10,16 +10,11 @@
         android:title="вниз"
         />
     <item
-    android:id="@+id/right"
-    android:title="направо"
-    />
+        android:id="@+id/right"
+        android:title="направо"
+        />
     <item
         android:id="@+id/left"
         android:title="налево"
         />
-    <item
-        android:id="@+id/repeat"
-        android:title="повтори"
-        />
-
 </menu>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/repeat"
+        android:title="повтори"
+        />
+    <item
+        android:id="@+id/my_if"
+        android:title="если"
+        />
+    <item
+        android:id="@+id/my_else"
+        android:title="если-иначе"
+        />
+    <item
+        android:id="@+id/my_while"
+        android:title="пока"
+        />
+</menu>

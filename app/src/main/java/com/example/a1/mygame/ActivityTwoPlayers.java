@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.a1.mygame.fragments.FragmentEdit1;
 import com.example.a1.mygame.fragments.FragmentEdit2;
+import com.example.a1.mygame.fragments.FragmentFirst;
 
 import java.util.Arrays;
 
@@ -30,6 +32,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     static KodParser Second_kodParser;
 
     TextView textView;
+    Button buttonCOM;
 
     static int count1, count2, action1, action2;
     static boolean move, pause;
@@ -52,6 +55,15 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         transaction.add(R.id.container, oneFragment, FragmentEdit1.TAG);
         transaction.commit();
 
+        buttonCOM = (Button)findViewById(R.id.button_com);
+        buttonCOM.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showPopupMenu(view,true);
+                return false;
+            }
+        });
+
         MyTimer2 timer = new MyTimer2();
         timer.start();
 
@@ -61,8 +73,8 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         player1.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
         player2.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
 
-        First_kodParser = new KodParser(StartX, StartY, square);
-        Second_kodParser = new KodParser(StartX, StartY, square);
+        First_kodParser = new KodParser(StartX, StartY, square,ComandLimit);
+        Second_kodParser = new KodParser(StartX, StartY, square,ComandLimit);
     }
 
     @Override
@@ -73,6 +85,9 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
             move = true;
 //            //if(!text.isEmpty())editText.setText(reformatKOD(text));
         }
+    }
+    public void Operators(View view) {
+        showPopupMenu(view,false);
     }
 
     public void onSwitch(View view) {
@@ -206,10 +221,13 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
         int NOW1player[] = {player1.sqY, player1.sqX};
         int NOW2player[] = {player2.sqY, player2.sqX};
-
-        return (Arrays.equals(NEXT1player, NEXT2player)
+        if (Arrays.equals(NEXT1player, NEXT2player)
                 || Arrays.equals(NEXT1player, NOW2player)
-                || Arrays.equals(NEXT2player, NOW1player));
+                || Arrays.equals(NEXT2player, NOW1player))
+        return true;
+        else if (Arrays.equals(NOW1player, NOW2player) && !move)
+            return true;
+        else return false;
     }
 
     private void MOTION_MYSELF(Robot robot, int count) {
@@ -242,9 +260,14 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     }
 
     @Override
-    void showPopupMenu(View v) {
+    void showPopupMenu(View v,boolean isLongClick) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-        popupMenu.inflate(R.menu.popup_menu); // Для Android 4.0
+        if (v.getId()==R.id.button_com && !isLongClick)
+            popupMenu.inflate(R.menu.popup_move_menu); // Для Android 4.0
+        else if (v.getId()==R.id.button_com && isLongClick)
+            popupMenu.inflate(R.menu.popup_condition_menu);
+        else if (v.getId()==R.id.button_oper )
+            popupMenu.inflate(R.menu.popup_operators_menu);
         popupMenu
                 .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -272,6 +295,60 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("repeat (2){\n \n};\n");
                                 return true;
+                            case R.id.my_if:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("if ( ){\n \n};\n");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("if ( ){\n \n};\n");
+                             return true;
+                            case R.id.my_else:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("if ( ){\n \n}else {\n \n};\n");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("if ( ){\n \n}else {\n \n};\n");
+                                return true;
+                            case R.id.my_while:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("while ( ){\n \n};\n");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("while ( ){\n \n};\n");
+                                return true;
+                            case R.id.con_up:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("up_");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("up_");
+                               return true;
+                            case R.id.con_down:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("down_");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("down_");
+                                return true;
+                            case R.id.con_right:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("right_");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("right_");
+                                return true;
+                            case R.id.con_left:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("left_");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("left_");
+                               return true;
+                            case R.id.con_wall:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("wall");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("wall");
+                               return true;
+                            case R.id.con_sweet:
+                                if (oneFragment.isVisible())
+                                    oneFragment.SetText("sweet");
+                                else if (twoFragment.isVisible())
+                                    twoFragment.SetText("sweet");
+                              return true;
                             default:
                                 return false;
                         }

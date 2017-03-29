@@ -64,10 +64,7 @@ class Robot {
     void MoveMySelf(boolean isBUSY){
         int n=0;
         if (isBUSY) n=BUSY;
-        if (ActivityTwoPlayers.move)
-            MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17, this.y - screenY / 17+n);
-        else
-            MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17+n, this.y - screenY / 17+n);
+        MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17+n, this.y - screenY / 17+n);
         MoveMySelf.setDuration(onTick);
         MoveMySelf.setFillAfter(true);
         body.startAnimation(MoveMySelf);
