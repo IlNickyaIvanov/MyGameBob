@@ -152,8 +152,12 @@ class KodParser {
                        if (!kodERROR) {
                            if(g==0)symbolslENGTH +=
                                    MainLine[Element].substring(0, MainLine[Element].indexOf("{") + 1).length();
-                           LOOP(Element, MainLine,text);
+                           if (!pause)
+                               LOOP(Element, MainLine,text);
+                           else break;
                        }
+                       else
+                           break;
                    }
                     loop = true;
                     break;

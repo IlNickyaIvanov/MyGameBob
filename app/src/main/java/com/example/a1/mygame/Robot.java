@@ -14,7 +14,7 @@ class Robot {
     private int screenY;
     private int BUSY;
     private ImageView body, eye;
-    AnimationDrawable anim_body, anim_eye;
+    private AnimationDrawable anim_body, anim_eye;
     TranslateAnimation translateAnimation,MoveMySelf;
 
     Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype) {

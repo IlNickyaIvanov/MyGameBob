@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.a1.mygame.fragments.FragmentEdit1;
 import com.example.a1.mygame.fragments.FragmentEdit2;
-import com.example.a1.mygame.fragments.FragmentFirst;
 
 import java.util.Arrays;
 

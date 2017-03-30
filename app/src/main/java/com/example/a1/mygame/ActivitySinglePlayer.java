@@ -260,21 +260,6 @@ public class ActivitySinglePlayer extends FragmentActivity {
         });
         popupMenu.show();
     }
-
-    String reformatKOD(String text){
-        String text2="";
-        String line[]=text.split(";");
-        text2+=line[0]+";";
-        text2+=line[line.length-1];
-        for (int i =1;i<line.length-1;i++){
-            if(!line[i].contains("\n")){
-                line[i]+=";\n";
-                text2+=line[i];
-            }
-            else text2+=line[i]+";";
-        }
-        return text2;
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ActivitySinglePlayer.this, ActivityLevelMenu.class);

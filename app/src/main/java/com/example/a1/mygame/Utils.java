@@ -6,10 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Toast;
 
-public class Utils {
-     static int level;
+class Utils {
     private static  boolean AlertDialogVisible;
-    public static void makeToast(Activity main,String text){
+    static void makeToast(Activity main, String text){
         Toast.makeText(main,text,Toast.LENGTH_LONG).show();
     }
     public static void AlertDialog(Activity main, String title, String Message, String TextButton ){
@@ -36,9 +35,9 @@ public class Utils {
     static boolean isAlertDialogVisible() {
         return AlertDialogVisible;
     }
-    public static void TwoButtonAllertDialog (final Activity main,
-                                              String title, String message,
-                                              String TextLeftButton, String TextRightButton, final int level ){
+    static void TwoButtonAllertDialog(final Activity main,
+                                      String title, String message,
+                                      String TextLeftButton, String TextRightButton, final int level){
         AlertDialog.Builder ad = new AlertDialog.Builder(main);
         ad.setTitle(title);  // заголовок
         ad.setMessage(message); // сообщение
