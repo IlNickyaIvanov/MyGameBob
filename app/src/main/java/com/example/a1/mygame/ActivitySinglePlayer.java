@@ -8,11 +8,15 @@ import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import mehdi.sakout.fancybuttons.FancyButton;
 
 public class ActivitySinglePlayer extends FragmentActivity {
     static int StartX,StartY;
@@ -40,12 +44,12 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
     static KodParser kodParser;
     private Robot robot;
+    long then = 0;
 
     private static long back_pressed;
 
-    TextView textView;
     EditText editText;
-    Button buttonCOM;
+    FancyButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +62,9 @@ public class ActivitySinglePlayer extends FragmentActivity {
         screenX=metrics.widthPixels;
         screenY=metrics.heightPixels;
 
-        textView = (TextView)findViewById(R.id.TextView1);
         editText = (EditText) findViewById(R.id.editText);
-        buttonCOM = (Button)findViewById(R.id.button_com);
-        buttonCOM.setOnLongClickListener(new View.OnLongClickListener() {
+        button = (FancyButton) findViewById(R.id.button_mov);
+        button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 showPopupMenu(view,true);
@@ -84,7 +87,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
         }
     void LEVEL_GETTER(){
         LEVEL_NUM = getIntent().getIntExtra("level_num", 1);
-        level_key= ActivityLevelMenu.getLevel(LEVEL_NUM);//ключ создания уровня
+        level_key= ActivityLevelMenu.getLevel();//ключ создания уровня
         square = new Square[level_key.length][level_key[0].length];
         size=screenX/2/square[0].length;//РАЗМЕР КЛЕТОК
         StartX = ActivityLevelMenu.StartX;//ЗАДАНИЕ-
@@ -108,7 +111,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
 
 
-    public void Comands(View view) {
+    public void Move(View view) {
         if(!NOTshowPopUp)showPopupMenu(view,false);
         else Utils.AlertDialog(this,"Задание "+LEVEL_NUM,
                 "Постарайся выполнить это задание без помощи автоввода.",
@@ -120,6 +123,7 @@ public class ActivitySinglePlayer extends FragmentActivity {
                 "Постарайся выполнить это задание без помощи автоввода.",
                 "ок");
     }
+
 
     public void onClickStart(View view) {
         if (!move) {
@@ -157,17 +161,20 @@ public class ActivitySinglePlayer extends FragmentActivity {
                 kodParser.setAction(0);
             }
             else if (action!=0) {
-                textView.setText("  робот шагает " + kodParser.ComandName[count]);
-                robot.RobotMove(
-                        square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
-                        square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
-                        kodParser.ARy[count],kodParser.ARx[count],false);//перемещение в клетку [y][x]
-                count++;//перебор элементов массивов "положения" до action
+                //textView.setText("  робот шагает " + kodParser.Anim[count]);
+                if (kodParser.Anim[count]!=0) {
+                    robot.SearchAnim(kodParser.Anim[count]);
+                    kodParser.Anim[count] = 0;
+                }
+                    robot.RobotMove(
+                            square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
+                            square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
+                            kodParser.ARy[count], kodParser.ARx[count], false);//перемещение в клетку [y][x]
+                    count++;//перебор элементов массивов "положения" до action
             }
         }
 
-        else {textView.setText("  робот стоит "+kodParser.y+" "+kodParser.x);
-            //robot.RobotMove(robot.y,robot.x,robot.sqY,robot.sqX); //КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
+        else {//textView.setText("  робот стоит "+kodParser.y+" "+kodParser.x);//КОСТЫЛЬ, ИНАЧЕ АНИМАЦИЯ ВИСНЕТ
             robot.MoveMySelf(false);
         }
 
@@ -210,11 +217,11 @@ public class ActivitySinglePlayer extends FragmentActivity {
 
      void showPopupMenu(View v, boolean isLongClick) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-         if (v.getId()==R.id.button_com && !isLongClick)
+         if (v.getId()==R.id.button_mov && !isLongClick)
              popupMenu.inflate(R.menu.popup_move_menu); // Для Android 4.0
-         else if (v.getId()==R.id.button_com && isLongClick)
+         else if (v.getId()==R.id.button_mov && isLongClick)
              popupMenu.inflate(R.menu.popup_condition_menu);
-         else if (v.getId()==R.id.button_oper )
+         else if (v.getId()==R.id.button_oper)
              popupMenu.inflate(R.menu.popup_operators_menu);
         popupMenu
                 .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_two_players"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/bg_color"
     tools:context="com.example.a1.mygame.ActivityTwoPlayers">
 
     <LinearLayout
@@ -46,83 +46,104 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_weight="6"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#0000"
                 android:id="@+id/imageView2" />
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/TextView1"
-                android:textSize="14sp"
-                android:textColor="@color/my_color"
-                android:background="@color/txtVIEW"
-                android:gravity="center_vertical"
-                android:layout_weight="8"
-                android:textStyle="normal|bold"
-                android:textAllCaps="false" />
+                android:layout_weight="1">
 
-            <Button
-                android:text="старт"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/button"
-                android:onClick="onClickStart"
-                android:background="@color/BTNstrt"
-                android:textStyle="normal|bold"
-                android:textColor="@color/my_color"
-                android:layout_weight="10"
-                android:textSize="18sp" />
+                <Button
+                    android:text="!?"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button_exit"
+                    android:onClick="onClickStart"
+                    android:background="@color/BTNstrt"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/my_color"
+                    android:layout_weight="1"
+                    android:textSize="30sp" />
+                <Button
+                    android:text="!?"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button_info"
+                    android:onClick="onClickStart"
+                    android:background="@color/BTNstrt"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/my_color"
+                    android:layout_weight="1"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:text="старт"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button_start"
+                    android:onClick="onClickStart"
+                    android:background="@color/BTNstrt"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/my_color"
+                    android:layout_weight="1"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0000"
-                android:id="@+id/imageView3"
-                android:layout_weight="1" />
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_gravity="right"
+            android:onClick="Move"
+            android:id="@+id/button_mov"
+            android:layout_margin="5dp"
+            android:layout_height="50dp"
+            android:layout_width="70dp"
+            fancy:fb_defaultColor="@color/BTN"
+            fancy:fb_focusColor="#ffffff"
+            fancy:fb_iconResource="@drawable/move_icon"
+            fancy:fb_radius="12dp"
+            fancy:fb_text=""
+            fancy:fb_textColor="#FFFFFF"
+            android:padding="5dp" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="9">
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_gravity="right"
+            android:onClick="Operators"
+            android:id="@+id/button_oper"
+            android:layout_margin="5dp"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            fancy:fb_defaultColor="@color/BTN"
+            fancy:fb_focusColor="#ffffff"
+            fancy:fb_iconResource="@drawable/oper_icon"
+            fancy:fb_radius="12dp"
+            fancy:fb_text=""
+            fancy:fb_textColor="#FFFFFF"
+            android:padding="5dp" />
 
-                <Button
-                    android:text="..."
-                    android:onClick="Comands"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button_com"
-                    android:textSize="26sp" />
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="end"
+            android:background="@drawable/player1_icon"
+            android:onClick="onSwitch"
+            android:id="@+id/button_sw" />
 
-                <Button
-                    android:text="op"
-                    android:onClick="Operators"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button_oper"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:text="sw"
-                    android:onClick="onSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonSW"
-                    android:textSize="24sp"
-                    android:textStyle="normal|bold" />
-            </LinearLayout>
-
-        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

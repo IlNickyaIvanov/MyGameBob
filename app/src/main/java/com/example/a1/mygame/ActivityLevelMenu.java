@@ -12,23 +12,30 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.example.a1.mygame.fragments.FragmentFirst;
 import com.example.a1.mygame.fragments.FragmentSecond;
 import com.example.a1.mygame.fragments.FragmentTherd;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class ActivityLevelMenu extends AppCompatActivity {
-    static boolean TwoPlayers;
+    public static boolean TwoPlayers;
     private static int test_zone[][] = new int[6][6];
-    private static int lava_zone[][] = new int[3][3];
+    public static int level[][];
     int ButtonID;
 
-    private static int level[][];
+    public static Activity activity;
+
+    public static DBHelper dbHelper1,dbHelperMylvl;
+    static SQLiteDatabase db;
+    static Cursor userCursor;
+    static SimpleCursorAdapter userAdapter;
+
     //УРОВНИ
-    static int StartX, StartY, EndX, EndY;//начальные и конечные координаты
+    public static int StartX, StartY, EndX, EndY;//начальные и конечные координаты
     FragmentPagerAdapter adapterViewPager;
 
     @Override
@@ -42,22 +49,23 @@ public class ActivityLevelMenu extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
+        activity = this;
+        FragmentTherd.mylevelsList = (ListView)findViewById(R.id.my_level_list);
 
         for (int y = 0; y < test_zone.length; y++) {
             for (int x = 0; x < test_zone[y].length; x++) {
                 test_zone[y][x] = 0;
             }
         }
-        for (int y = 0; y < lava_zone.length; y++) {
-            for (int x = 0; x < lava_zone[y].length; x++) {
-                lava_zone[y][x] = 1;
-            }
-        }
-        lava_zone[1][1] = 0;
+
+        dbHelper1 = new DBHelper(getApplicationContext(), 1);
+        dbHelper1.create_db();
+        dbHelperMylvl = new DBHelper(getApplicationContext());
+
         int level = getIntent().getIntExtra("level_num", -1);
         if (level == 0)
             Utils.AlertDialog(this, "Уровень", "Следующий уровень находится в разработке.\nВ скором времени он будет доступен...", "Выбрать другой");
-        else if (level != -1) SELECT_LEVEL(level, this);
+        else if (level != -1) SELECT_LEVEL(level, this,false);
     }
 
     public void onLevelBtn(View view) {
@@ -80,97 +88,45 @@ public class ActivityLevelMenu extends AppCompatActivity {
                 level = -1;
                 break;
         }
-        if (level != -1) SELECT_LEVEL(level, this);
+        if (level != -1) SELECT_LEVEL(level, this,false);
         ButtonID = view.getId();
     }
 
-    public void SELECT_LEVEL(int level, Activity activity) {
+    public void SELECT_LEVEL(int level, Activity activity, boolean own_level) {
         Intent intent;
         if (!TwoPlayers)
             intent = new Intent(activity, ActivitySinglePlayer.class);
         else intent = new Intent(activity, ActivityTwoPlayers.class);
-        String sLab;
-        switch (level) {
-            case (0):
-                intent.putExtra("level_num", 0);
-                StartX = 1;
-                StartY = 1;
-                EndX = -1;
-                EndY = -1;
-                break;
-            case (1):
-                intent.putExtra("level_num", 1);
-                sLab = getStringFromAssetFile("level1.txt");
-                StartX = 0;
-                StartY = 0;
-                EndX = 2;
-                EndY = 0;
-                ActivityLevelMenu.level = parseLab(sLab, 1, 3);
-                break;
-            case (2):
-                intent.putExtra("level_num", 2);
-                sLab = getStringFromAssetFile("level2.txt"); // считываем лабиринт из файла в строку
-                StartX = 5;
-                StartY = 0;
-                EndX = 0;
-                EndY = 0;  // размерность массива, будущего лабиринта
-                ActivityLevelMenu.level = parseLab(sLab, 6, 6); // парсим лабиринт из строки в массив целых
-                break;
+        DBHelper dbHelper;
+        if (own_level)dbHelper = dbHelperMylvl;
+        else dbHelper = dbHelper1;
+        String sLab = dbHelper.getMAP(level);
+        intent.putExtra("level_num", level);
 
-            case (3):
-                intent.putExtra("level_num", 3);
-                StartX = 1;
-                StartY = 1;
-                EndX = -1;
-                EndY = -1;
-                break;
-            default:
-                break;
-        }
+        StartX = dbHelper.getSTARTX(level);
+        StartY = dbHelper.getSTARTY(level);
+        EndX = dbHelper.getENDX(level);
+        EndY = dbHelper.getENDY(level);
+        ActivityLevelMenu.level = parseLab(sLab, dbHelper.getLINES(level), dbHelper.getCOLUMNS(level));
+
         startActivity(intent);
         this.finish();
     }
 
 
-    public static int[][] getLevel(int level_num) {
-        switch (level_num) {
-            case 0:
-                return test_zone;
-            case 1:
-                return level;
-            case 2:
-                return level;
-            case 3:
-                return lava_zone;
-            default:
-                return test_zone;
-        }
+    public static int[][] getLevel() {
+        return level;
     }
 
-    String getStringFromAssetFile(String filename) {
-        byte[] buffer = null;
-        InputStream is;
-        try {
-            is = getAssets().open(filename);
-            int size = is.available();
-            buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String str = new String(buffer);
-        return str;
-    }
-
-    int[][] parseLab(String s, int x, int y) {
-        int lab[][] = new int[x][y];
+    public static int[][] parseLab(String s, int Y, int X) {
+        int lab[][] = new int[Y][X];
         int k = 0;
-        for (int j = 0; j < x; j++) {
-            for (int i = 0; i < y; i++) {
-                lab[j][i] = Character.getNumericValue(s.charAt(k++));// берём следующий по очереди символ из строки
+        for (int j = 0; j < Y; j++) {
+            for (int i = 0; i < X; i++) {
+                lab[j][i] = Character.getNumericValue(s.charAt(k));// берём следующий по очереди символ из строки
+                k++;
             }
-            k += 2; // в конце строки двухбайтный перевод строки на новую строчку, его пропускаем
+            k += 1; // в конце строки двухбайтный перевод строки на новую строчку, его пропускаем
         }
         return lab;
     }
@@ -195,7 +151,7 @@ public class ActivityLevelMenu extends AppCompatActivity {
                 case 1: // Fragment # 0 - This will show FragmentFirst different title
                     return FragmentSecond.newInstance(1, "Page # 2");
                 case 2: // Fragment # 0 - This will show FragmentFirst different title
-                    return FragmentTherd.newInstance(2, "Page # 3");
+                    return FragmentTherd.newInstance(2, "Page # 3",ActivityLevelMenu.activity);
                 default:
                     return null;
             }
@@ -217,5 +173,36 @@ public class ActivityLevelMenu extends AppCompatActivity {
             return "страница" + position;
         }
 
+    }
+    public static void updateList(){
+        // открываем подключение
+        db = dbHelperMylvl.getWritableDatabase();
+        //получаем данные из бд в виде курсора
+        userCursor = db.rawQuery("select * from "+ dbHelperMylvl.TABLE_NAME, null);
+        // определяем, какие столбцы из курсора будут выводиться в ListView
+        String[] headers = new String[] {DBHelper.COLUMN_NAME, DBHelper.COLUMN_ID};
+        // создаем адаптер, передаем в него курсор
+        userAdapter = new SimpleCursorAdapter(activity, android.R.layout.two_line_list_item,
+                userCursor, headers, new int[]{android.R.id.text1, android.R.id.text2}, 0);
+        FragmentTherd.updateMyLevelList(userAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
+    // по нажатию на кнопку запускаем UserActivity для добавления данных
+    public void addnewlvl(View view){
+        Intent intent = new Intent(this, ActivityLevelEditor.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        // Закрываем подключение и курсор
+        db.close();
+        userCursor.close();
     }
 }

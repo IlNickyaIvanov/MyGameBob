@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class KodParser {
     private Square square[][];
     int action;
+    int AnimID;
     int x, y;//положение робота
 
     private boolean pause;
@@ -17,11 +18,12 @@ class KodParser {
     int start, stop;
     int ARx[];//массивы пошаговых
     int ARy[];//координат положения робота
-    String ComandName[] = new String[100];//команды
+    int Anim[];//ключ анимации для робота
     KodParser(int StartX, int StartY, Square square[][],int ComandsLimit) {
         this.square = square;
         ARx = new int[ComandsLimit];
         ARy = new int[ComandsLimit];
+        Anim = new int[ComandsLimit];
         x = StartX;
         y = StartY;
     }
@@ -158,7 +160,7 @@ class KodParser {
                        }
                        else
                            break;
-                   }
+                    }
                     loop = true;
                     break;
                 default:
@@ -175,7 +177,8 @@ class KodParser {
             }
             ARx[action] = x;
             ARy[action] = y;
-            ComandName[action] = cOmAnD;
+            Anim[action] = 0;
+            AnimID=0;
             action++;
         }
         return LOOP_JUMP;
@@ -192,14 +195,19 @@ class KodParser {
         try {
             dir_text=text.substring(0,text.indexOf("_"));
             switch (dir_text){
-                case ("up"):dY=-1;dX=0;
+                case ("up"):dY=-1;dX=0; AnimID=1;
                     break;
-                case ("down"):dY=1;dX=0;
+                case ("down"):dY=1;dX=0; AnimID=2;
                     break;
-                case ("right"):dY=0;dX=1;
+                case ("left"):dY=0;dX=-1; AnimID=3;
                     break;
-                case ("left"):dY=0;dX=-1;
+                case ("right"):dY=0;dX=1; AnimID=4;
+                    break;
             }
+            ARx[action] = x;
+            ARy[action] = y;
+            Anim[action] = AnimID;
+            action++;
             if(text.substring(text.indexOf("_")+1).equals("wall"))
                 result=IS_LAVA(dY,dX);
         }

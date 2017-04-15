@@ -20,5 +20,4 @@
     <item android:drawable="@drawable/body2" android:duration="50"/>
     <item android:drawable="@drawable/body1" android:duration="50"/>
 
-
 </animation-list>

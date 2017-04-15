@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#1b1b1b</color>
-    <color name="colorPrimaryDark">#00dc62</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="my_color">#e9eee9</color>
-    <color name="bg_color">#1c1c1c</color>
-    <color name="EditTextBG">#282828</color>
-    <color name="BTNstrt">#a2c124</color>
+    <color name="colorPrimaryDark">#616161</color>
+    <color name="colorAccent">#f02475</color>
+    <color name="my_color">#f8f8f8</color>
+    <color name="bg_color">#282828</color>
+    <color name="EditTextBG">#2c2c2c</color>
+    <color name="BTNstrt">#b1cf3a</color>
     <color name="txtVIEW">#acce23</color>
-    <color name="BTNcolor">#cd5814</color>
+    <color name="BTNcolor">#fa6b19</color>
+    <color name="play_btn_color">#9cf57b</color>
+    <color name="BTN">#ec407a</color>
 </resources>

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 class Utils {
     private static  boolean AlertDialogVisible;
-    static void makeToast(Activity main, String text){
+    public static void makeToast(Activity main, String text){
         Toast.makeText(main,text,Toast.LENGTH_LONG).show();
     }
     public static void AlertDialog(Activity main, String title, String Message, String TextButton ){
@@ -65,4 +65,5 @@ class Utils {
         });
         ad.show();
     }
+
 }

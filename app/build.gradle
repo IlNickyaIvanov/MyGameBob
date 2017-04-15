@@ -24,8 +24,6 @@ repositories {
     mavenCentral()
     mavenLocal()
 }
-
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -34,5 +32,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.github.medyo:fancybuttons:1.8.3'
     testCompile 'junit:junit:4.12'
 }

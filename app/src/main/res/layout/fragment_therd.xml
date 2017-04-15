@@ -3,11 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Третий Режим\nC\nC\nC\nC\n^_^"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="45dp"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvLabel"  />
+        android:textSize="18sp"/>
+     <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Добавить"
+    android:onClick="addnewlvl"
+    android:textSize="18sp"/>
+    <ListView
+        android:id="@+id/my_level_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

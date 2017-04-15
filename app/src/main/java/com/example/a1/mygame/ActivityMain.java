@@ -13,14 +13,14 @@ import android.widget.TextView;
 
 public class ActivityMain extends Activity {
     private boolean pause;
-    private final int miniGameStart=1000;
+    private final int miniGameStart=10000;
     private int MaxNGhost=50;
     protected static int screenWidth, screenHeight;
     protected static int liveGhosts, diedGhosts,nGhosts;
     private static int count;
     private static long back_pressed;
     MiniGameGhost ghost[] = new MiniGameGhost[200];
-    TextView textViewVersion,textViewWelcome;
+    TextView textViewVersion, nameGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,12 @@ public class ActivityMain extends Activity {
         display.getMetrics(metrics);
         screenWidth=metrics.widthPixels;
         screenHeight=metrics.heightPixels;
-        textViewWelcome = (TextView)findViewById(R.id.textView);
+
+        nameGame = (TextView)findViewById(R.id.name_game);
         textViewVersion = (TextView) findViewById(R.id.textView2);
-        textViewWelcome.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ObelixPro.ttf"));
-        textViewVersion.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ObelixPro.ttf"));
+
+        nameGame.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/piecesfi.ttf"));
+        textViewVersion.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/ObelixPro.ttf"));
         MyTimer timer = new MyTimer();
         timer.start();
     }
@@ -72,7 +74,7 @@ public class ActivityMain extends Activity {
 
     void update(){
         count++;//счетчик
-        if (liveGhosts==0) {textViewVersion.setText(R.string.version);textViewVersion.setTextColor(getResources().getColor(R.color.colorPrimaryDark));}
+        if (liveGhosts==0) {textViewVersion.setText(R.string.version);}
         if (count>=miniGameStart && liveGhosts<MaxNGhost && nGhosts<ghost.length) {miniGameGhost();}
         for (int i = 0; i < nGhosts; i++) {if (ghost[i].live) ghost[i].move(); else diedGhosts++;}
     }

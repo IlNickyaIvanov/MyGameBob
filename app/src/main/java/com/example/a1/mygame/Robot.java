@@ -2,6 +2,9 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,48 +16,92 @@ class Robot {
     private int onTick;
     private int screenY;
     private int BUSY;
+    private boolean isBUSY;
+
     private ImageView body, eye;
     private AnimationDrawable anim_body, anim_eye;
     TranslateAnimation translateAnimation,MoveMySelf;
 
+    ImageView image1,image2,image3;
+    Animation alphaAnimation1,alphaAnimation2,alphaAnimation3;
+
     Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype) {
+
         body = new ImageView(main);
         eye = new ImageView(main);
+
+        image1= new ImageView(main);
+        image2= new ImageView(main);
+        image3= new ImageView(main);
+
         this.x = x;
         this.y = y;
         this.size = size;
         this.screenY = screenY;
         this.onTick=onTick;
         this.BUSY=BUSYtype;
+
         main.addContentView(body, new RelativeLayout.LayoutParams(size, size));
         main.addContentView(eye, new RelativeLayout.LayoutParams(size, size));
+
+        main.addContentView(image1,new RelativeLayout.LayoutParams(size,size));
+        main.addContentView(image2,new RelativeLayout.LayoutParams(size,size));
+        main.addContentView(image3,new RelativeLayout.LayoutParams(size,size));
+
+        alphaAnimation1 = AnimationUtils.loadAnimation(main,R.anim.alpha);
+        alphaAnimation2 = AnimationUtils.loadAnimation(main,R.anim.alpha);
+        alphaAnimation3 = AnimationUtils.loadAnimation(main,R.anim.alpha);
+
+        alphaAnimation2.setStartOffset(100);
+        alphaAnimation3.setStartOffset(200);
+
         CreateAnim(bodyType);
     }
 
     private void CreateAnim(int bodyType) {
-        body.setX(x);
-        eye.setX(x);
-        body.setY(y);
-        eye.setY(y);
+        body.setX(x);body.setY(y);
+        eye.setX(x);eye.setY(y);
+
+        image1.setX(x);image1.setY(y);
+        image2.setX(x);image2.setY(y);
+        image3.setX(y);image3.setY(y);
+
         if (bodyType==1)
         body.setBackgroundResource(R.drawable.body_anim1);
         else
             body.setBackgroundResource(R.drawable.body_anim2);
         eye.setBackgroundResource(R.drawable.eye_anim);
+
+        image1.setImageResource(R.drawable.search_anim1);
+        image2.setImageResource(R.drawable.search_anim2);
+        image3.setImageResource(R.drawable.search_anim3);
+
         anim_body = (AnimationDrawable) body.getBackground();
         anim_eye = (AnimationDrawable) eye.getBackground();
+
         anim_body.start();
         anim_eye.start();
+
+        image1.setVisibility(View.INVISIBLE);
+        image2.setVisibility(View.INVISIBLE);
+        image3.setVisibility(View.INVISIBLE);
     }
 
     void RobotMove(float y, float x, int sqY, int sqX,boolean isBUSY) {
         int n=0;
+        this.isBUSY=isBUSY;
         if (isBUSY) n=BUSY;
         translateAnimation = new TranslateAnimation(this.x, x, this.y - screenY / 17, y - screenY / 17+n);
         translateAnimation.setDuration(onTick);
         translateAnimation.setFillAfter(true);
+
         body.startAnimation(translateAnimation);
         eye.startAnimation(translateAnimation);
+
+        image1.setX(x);image1.setY(y);
+        image2.setX(x);image2.setY(y);
+        image3.setX(x);image3.setY(y);
+
         translateAnimation.hasEnded();
         this.x = x;
         this.y = y;
@@ -63,6 +110,7 @@ class Robot {
     }
     void MoveMySelf(boolean isBUSY){
         int n=0;
+        this.isBUSY=isBUSY;
         if (isBUSY) n=BUSY;
         MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17+n, this.y - screenY / 17+n);
         MoveMySelf.setDuration(onTick);
@@ -70,5 +118,33 @@ class Robot {
         body.startAnimation(MoveMySelf);
         eye.startAnimation(MoveMySelf);
         MoveMySelf.hasEnded();
+    }
+
+    void SearchAnim (int AnimID){
+        switch (AnimID){
+            case(1):
+                image1.setRotation(0);
+                image2.setRotation(0);
+                image3.setRotation(0);
+                break;
+            case(2):
+                image1.setRotation(180);
+                image2.setRotation(180);
+                image3.setRotation(180);
+                break;
+            case(3):
+                image1.setRotation(270);
+                image2.setRotation(270);
+                image3.setRotation(270);
+                break;
+            case(4):
+                image1.setRotation(90);
+                image2.setRotation(90);
+                image3.setRotation(90);
+                break;
+        }
+        image1.startAnimation(alphaAnimation1);
+        image2.startAnimation(alphaAnimation2);
+        image3.startAnimation(alphaAnimation3);
     }
 }

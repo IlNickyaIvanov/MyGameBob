@@ -16,6 +16,8 @@ import com.example.a1.mygame.fragments.FragmentEdit2;
 
 import java.util.Arrays;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
     private FragmentEdit1 oneFragment;
@@ -30,8 +32,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     static KodParser First_kodParser;
     static KodParser Second_kodParser;
 
-    TextView textView;
-    Button buttonCOM;
+    FancyButton button;
 
     static int count1, count2, action1, action2;
     static boolean move, pause;
@@ -42,8 +43,6 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_players);
-
-        textView = (TextView) findViewById(R.id.TextView1);
         ActivityLevelMenu.TwoPlayers = false;
 
         manager = getSupportFragmentManager();
@@ -54,14 +53,15 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         transaction.add(R.id.container, oneFragment, FragmentEdit1.TAG);
         transaction.commit();
 
-        buttonCOM = (Button)findViewById(R.id.button_com);
-        buttonCOM.setOnLongClickListener(new View.OnLongClickListener() {
+        button = (FancyButton) findViewById(R.id.button_mov);
+        button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 showPopupMenu(view,true);
                 return false;
             }
         });
+
 
         MyTimer2 timer = new MyTimer2();
         timer.start();
@@ -85,14 +85,10 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
 //            //if(!text.isEmpty())editText.setText(reformatKOD(text));
         }
     }
-    public void Operators(View view) {
-        showPopupMenu(view,false);
-    }
-
     public void onSwitch(View view) {
         transaction = manager.beginTransaction();
         switch (view.getId()) {
-            case (R.id.buttonSW):
+            case (R.id.button_sw):
                 try {
                     if (move) break;
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -137,7 +133,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
                 //если ошибок нет
             } else if (action1 != 0 || action2 != 0) {
-                textView.setText("  робот 1 шагает " + First_kodParser.ComandName[count1]);
+                //textView.setText("  робот 1 шагает " + First_kodParser.Anim[count1]);
                 if (count1 != action1) {
                     MOTION(First_kodParser, player1, count1);
                     count1++;
@@ -151,7 +147,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
             //ожидание команд
         } else if (!move) {
-            textView.setText("роботы стоят " + First_kodParser.y + " " + First_kodParser.x);
+            //textView.setText("роботы стоят " + First_kodParser.y + " " + First_kodParser.x);
             MOTION_MYSELF(player1, count1);
             MOTION_MYSELF(player2, count2);
         }
@@ -261,11 +257,11 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     @Override
     void showPopupMenu(View v,boolean isLongClick) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-        if (v.getId()==R.id.button_com && !isLongClick)
+        if (v.getId()==R.id.button_mov && !isLongClick)
             popupMenu.inflate(R.menu.popup_move_menu); // Для Android 4.0
-        else if (v.getId()==R.id.button_com && isLongClick)
+        else if (v.getId()==R.id.button_mov && isLongClick)
             popupMenu.inflate(R.menu.popup_condition_menu);
-        else if (v.getId()==R.id.button_oper )
+        else if (v.getId()==R.id.button_oper)
             popupMenu.inflate(R.menu.popup_operators_menu);
         popupMenu
                 .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

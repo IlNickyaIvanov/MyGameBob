@@ -27,9 +27,10 @@
             android:name=".ActivityHowToPlay"
             android:label="@string/how_title" />
         <activity android:name=".ActivitySettings" />
-        <activity android:name=".ActivityTwoPlayers"
-            android:screenOrientation="landscape"
-            />
+        <activity
+            android:name=".ActivityTwoPlayers"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ActivityLevelEditor"></activity>
     </application>
 
 </manifest>
