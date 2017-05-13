@@ -30,6 +30,7 @@ public class FragmentTherd extends Fragment {
 
     public static ListView mylevelsList;
     static Activity example_activity;
+    static TextView nolevels;
 
     // newInstance constructor for creating fragment with arguments
     public static FragmentTherd newInstance(int page, String title, Activity activity) {
@@ -52,6 +53,7 @@ public class FragmentTherd extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_therd, container, false);
+        nolevels = (TextView)view.findViewById(R.id.no_levels);
         mylevelsList = (ListView)view.findViewById(R.id.my_level_list);
         mylevelsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,7 +69,7 @@ public class FragmentTherd extends Fragment {
                 intent.putExtra("id", id);
                 startActivity(intent);
                 example_activity.finish();
-                return false;
+                return true;
             }
         });
         ActivityLevelMenu.updateList();
@@ -81,7 +83,9 @@ public class FragmentTherd extends Fragment {
         DBHelper dbHelper = ActivityLevelMenu.dbHelperMylvl;
         String sLab = dbHelper.getMAP(id);
         intent.putExtra("level_num", id);
+        intent.putExtra("own_level", true);
 
+        ActivityLevelMenu.level_name = dbHelper.getNAME(id);
         ActivityLevelMenu.StartX = dbHelper.getSTARTX(id);
         ActivityLevelMenu.StartY = dbHelper.getSTARTY(id);
         ActivityLevelMenu.EndX = dbHelper.getENDX(id);
@@ -92,7 +96,11 @@ public class FragmentTherd extends Fragment {
         example_activity.finish();
     }
     public static void updateMyLevelList (SimpleCursorAdapter levelAdapter){
-        if(mylevelsList!=null)
+        if(mylevelsList!=null) {
+            if (levelAdapter.isEmpty())
+                nolevels.setVisibility(View.VISIBLE);
+            else nolevels.setVisibility(View.INVISIBLE);
             mylevelsList.setAdapter(levelAdapter);
+        }
     }
 }

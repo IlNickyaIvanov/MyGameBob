@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.a1.mygame.fragments.FragmentEdit1;
@@ -31,6 +34,10 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     private Robot player1, player2;
     static KodParser First_kodParser;
     static KodParser Second_kodParser;
+
+    private Animation flip1,flip2;
+    private ImageButton player_icon;
+   private boolean first_player_vesible;
 
     FancyButton button;
 
@@ -62,13 +69,32 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
             }
         });
 
+        flip1 = AnimationUtils.loadAnimation(this,R.anim.flip1);
+        flip2 = AnimationUtils.loadAnimation(this,R.anim.flip2);
+        flip1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(first_player_vesible)player_icon.setBackgroundResource(R.drawable.player2_icon);
+                else player_icon.setBackgroundResource(R.drawable.player1_icon);
+                player_icon.startAnimation(flip2);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        player_icon = (ImageButton)findViewById(R.id.button_sw);
 
         MyTimer2 timer = new MyTimer2();
         timer.start();
-
         LEVEL_GETTER();
-        player1 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 1, size / 4);
-        player2 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 2, -size / 4);
+        float startY=(screenY-size*square.length)/2;
+        float startX = (screenX/2-size*square[0].length)/2;
+        player1 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 1, size / 4,startX,startY);
+        player2 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 2, -size / 4,startX,startY);
         player1.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
         player2.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
 
@@ -87,6 +113,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     }
     public void onSwitch(View view) {
         transaction = manager.beginTransaction();
+        player_icon.startAnimation(flip1);
         switch (view.getId()) {
             case (R.id.button_sw):
                 try {
@@ -94,10 +121,12 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     if (manager.findFragmentByTag(FragmentEdit1.TAG) != null) {
                         if (START_PARSER(1))
-                            transaction.replace(R.id.container, twoFragment, FragmentEdit2.TAG);
+                        transaction.replace(R.id.container, twoFragment, FragmentEdit2.TAG);
+                        first_player_vesible=true;
                     } else if (manager.findFragmentByTag(FragmentEdit2.TAG) != null) {
                         if (START_PARSER(2))
-                            transaction.replace(R.id.container, oneFragment, FragmentEdit1.TAG);
+                        transaction.replace(R.id.container, oneFragment, FragmentEdit1.TAG);
+                        first_player_vesible=false;
                     }
                 } catch (Throwable t) {
                     break;
@@ -147,7 +176,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
             //ожидание команд
         } else if (!move) {
-            //textView.setText("роботы стоят " + First_kodParser.y + " " + First_kodParser.x);
+            //textView.setText("роботы стоят " + First_kodParser.sqY + " " + First_kodParser.sqX);
             MOTION_MYSELF(player1, count1);
             MOTION_MYSELF(player2, count2);
         }

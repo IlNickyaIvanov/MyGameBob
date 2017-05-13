@@ -71,7 +71,7 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:text="!?"
+                    android:text="*?*"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_exit"
@@ -80,18 +80,18 @@
                     android:textStyle="normal|bold"
                     android:textColor="@color/my_color"
                     android:layout_weight="1"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
                 <Button
-                    android:text="!?"
+                    android:text="RE"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_info"
-                    android:onClick="onClickStart"
+                    android:onClick="onClickRef"
                     android:background="@color/BTNstrt"
                     android:textStyle="normal|bold"
                     android:textColor="@color/my_color"
                     android:layout_weight="1"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <Button
                     android:text="старт"
@@ -103,7 +103,7 @@
                     android:textStyle="normal|bold"
                     android:textColor="@color/my_color"
                     android:layout_weight="1"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

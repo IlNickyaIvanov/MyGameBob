@@ -1,6 +1,8 @@
 package com.example.a1.mygame;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -18,8 +20,11 @@ class MiniGameGhost  {
     private ImageView image;
 
     MiniGameGhost(Activity main){
-        screenWidth = ActivityMain.screenWidth;
-        screenHeight = ActivityMain.screenHeight;
+        Display display = main.getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        screenWidth=metrics.widthPixels;
+        screenHeight=metrics.heightPixels;
         live = true;
         bornSize();
         bornLocation();
@@ -41,14 +46,17 @@ class MiniGameGhost  {
     }
      private void bornLocation() {
         x = (float) Math.abs((Math.random() * screenWidth - size));
-        y = (float) Math.abs((Math.random() * screenWidth - size));
+        y = (float) Math.abs((Math.random() * screenHeight - size));
     }
     private void bornSpeed() {
         vx = (int)(Math.random()*10+1);
         vy = (int)(Math.random()*10+1);
     }
     private void bornSize(){
-        size = (int)(Math.random()*screenWidth/7+screenWidth/10);
+        if (screenWidth>screenHeight)
+        size = (int)(Math.random()*screenHeight/7+screenHeight/10);
+        else
+            size = (int)(Math.random()*screenWidth/7+screenWidth/10);
     }
      void move(){
         x+=vx;

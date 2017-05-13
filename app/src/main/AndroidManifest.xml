@@ -8,29 +8,34 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ActivityMain"
-            android:screenOrientation="portrait">
+        <activity android:name=".ActivityIntro"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ActivityMain">
+        </activity>
         <activity android:name=".ActivityLevelMenu" />
         <activity
             android:name=".ActivitySinglePlayer"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:windowSoftInputMode="stateHidden"  />
         <activity
             android:name=".ActivityHowToPlay"
             android:label="@string/how_title" />
         <activity android:name=".ActivitySettings" />
         <activity
             android:name=".ActivityTwoPlayers"
-            android:screenOrientation="landscape" />
-        <activity android:name=".ActivityLevelEditor"></activity>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityLevelEditor"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

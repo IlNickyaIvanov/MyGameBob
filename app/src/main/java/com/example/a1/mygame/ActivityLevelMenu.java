@@ -2,6 +2,7 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,7 @@ public class ActivityLevelMenu extends AppCompatActivity {
 
     //УРОВНИ
     public static int StartX, StartY, EndX, EndY;//начальные и конечные координаты
+    public static String level_name;
     FragmentPagerAdapter adapterViewPager;
 
     @Override
@@ -63,9 +65,13 @@ public class ActivityLevelMenu extends AppCompatActivity {
         dbHelperMylvl = new DBHelper(getApplicationContext());
 
         int level = getIntent().getIntExtra("level_num", -1);
-        if (level == 0)
-            Utils.AlertDialog(this, "Уровень", "Следующий уровень находится в разработке.\nВ скором времени он будет доступен...", "Выбрать другой");
-        else if (level != -1) SELECT_LEVEL(level, this,false);
+        if (level != -1) SELECT_LEVEL(level, this,false);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            getWindow().setBackgroundDrawableResource(R.drawable.background);
+        }else{
+            getWindow().setBackgroundDrawableResource(R.drawable.backgroundvertical);
+        }
     }
 
     public void onLevelBtn(View view) {
@@ -98,19 +104,27 @@ public class ActivityLevelMenu extends AppCompatActivity {
             intent = new Intent(activity, ActivitySinglePlayer.class);
         else intent = new Intent(activity, ActivityTwoPlayers.class);
         DBHelper dbHelper;
-        if (own_level)dbHelper = dbHelperMylvl;
+        if (own_level){
+            dbHelper = dbHelperMylvl;
+        }
         else dbHelper = dbHelper1;
-        String sLab = dbHelper.getMAP(level);
-        intent.putExtra("level_num", level);
+        if (dbHelper.isRowEx(level)) {
 
-        StartX = dbHelper.getSTARTX(level);
-        StartY = dbHelper.getSTARTY(level);
-        EndX = dbHelper.getENDX(level);
-        EndY = dbHelper.getENDY(level);
-        ActivityLevelMenu.level = parseLab(sLab, dbHelper.getLINES(level), dbHelper.getCOLUMNS(level));
+            String sLab = dbHelper.getMAP(level);
+            intent.putExtra("level_num", level);
+            intent.putExtra("own_level",own_level);
 
-        startActivity(intent);
-        this.finish();
+            level_name = dbHelper.getNAME(level);
+            StartX = dbHelper.getSTARTX(level);
+            StartY = dbHelper.getSTARTY(level);
+            EndX = dbHelper.getENDX(level);
+            EndY = dbHelper.getENDY(level);
+            ActivityLevelMenu.level = parseLab(sLab, dbHelper.getLINES(level), dbHelper.getCOLUMNS(level));
+
+            startActivity(intent);
+            this.finish();
+        }else  Utils.AlertDialog(this, "Уровень", "Следующий уровень находится в разработке.\n" +
+                "В скором времени он будет доступен...", "Выбрать другой");
     }
 
 
@@ -192,7 +206,7 @@ public class ActivityLevelMenu extends AppCompatActivity {
         super.onResume();
         updateList();
     }
-    // по нажатию на кнопку запускаем UserActivity для добавления данных
+    // по нажатию на кнопку запускаем LevelEditor для добавления данных
     public void addnewlvl(View view){
         Intent intent = new Intent(this, ActivityLevelEditor.class);
         startActivity(intent);

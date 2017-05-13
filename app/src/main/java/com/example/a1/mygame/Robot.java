@@ -2,6 +2,7 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,10 +14,11 @@ class Robot {
     float x, y;
     int sqX, sqY;
     int size;
-    private int onTick;
+    private int onTickMove;
     private int screenY;
     private int BUSY;
-    private boolean isBUSY;
+    boolean pause=true;
+    float corY,corX;
 
     private ImageView body, eye;
     private AnimationDrawable anim_body, anim_eye;
@@ -25,8 +27,9 @@ class Robot {
     ImageView image1,image2,image3;
     Animation alphaAnimation1,alphaAnimation2,alphaAnimation3;
 
-    Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype) {
-
+    Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype,float corX,float corY) {
+        this.corX=corX;
+        this.corY = corY;
         body = new ImageView(main);
         eye = new ImageView(main);
 
@@ -38,7 +41,7 @@ class Robot {
         this.y = y;
         this.size = size;
         this.screenY = screenY;
-        this.onTick=onTick;
+        this.onTickMove = onTick;
         this.BUSY=BUSYtype;
 
         main.addContentView(body, new RelativeLayout.LayoutParams(size, size));
@@ -88,11 +91,17 @@ class Robot {
     }
 
     void RobotMove(float y, float x, int sqY, int sqX,boolean isBUSY) {
+        if (!pause){
+            body.setX(this.x);
+            body.setY(this.y);
+            eye.setX(this.x);
+            eye.setY(this.y);
+            pause=true;
+        }
         int n=0;
-        this.isBUSY=isBUSY;
         if (isBUSY) n=BUSY;
-        translateAnimation = new TranslateAnimation(this.x, x, this.y - screenY / 17, y - screenY / 17+n);
-        translateAnimation.setDuration(onTick);
+        translateAnimation = new TranslateAnimation(this.x-corX, x-corX, this.y - corY, y -corY+n);
+        translateAnimation.setDuration(onTickMove);
         translateAnimation.setFillAfter(true);
 
         body.startAnimation(translateAnimation);
@@ -110,10 +119,9 @@ class Robot {
     }
     void MoveMySelf(boolean isBUSY){
         int n=0;
-        this.isBUSY=isBUSY;
         if (isBUSY) n=BUSY;
-        MoveMySelf = new TranslateAnimation(this.x, this.x, this.y - screenY / 17+n, this.y - screenY / 17+n);
-        MoveMySelf.setDuration(onTick);
+        MoveMySelf = new TranslateAnimation(this.x-corX, this.x-corX, this.y - corY, this.y -corY+n);
+        MoveMySelf.setDuration(onTickMove);
         MoveMySelf.setFillAfter(true);
         body.startAnimation(MoveMySelf);
         eye.startAnimation(MoveMySelf);
@@ -147,4 +155,5 @@ class Robot {
         image2.startAnimation(alphaAnimation2);
         image3.startAnimation(alphaAnimation3);
     }
+
 }

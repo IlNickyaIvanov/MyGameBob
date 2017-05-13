@@ -2,7 +2,9 @@
 <resources>
     <string name="app_name">BoB</string>
     <string name="how_title">Как играть</string>
-    <string name="version">версия 2.0</string>
+    <string name="version">версия 3.0</string>
+    <string name="nolvl" formated="false">Сейчас здесь нет ни одного уровня.\n
+        Нажмите  ДОБАВИТЬ для создания нового.</string>
 
     <string name="play">играть</string>
     <string name="how_to_play">как играть</string>

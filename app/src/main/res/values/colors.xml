@@ -11,4 +11,7 @@
     <color name="BTNcolor">#fa6b19</color>
     <color name="play_btn_color">#9cf57b</color>
     <color name="BTN">#ec407a</color>
+    <color name="intro">#343434</color>
+    <color name="blue">#6749D7</color>
+    <color name="purpure">#7E07A9</color>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.a1.mygame;
 
+import android.app.AlertDialog;
+
 import java.util.ArrayList;
 
 class KodParser {
@@ -56,9 +58,9 @@ class KodParser {
                 if (CHECK_DELIMITOR(line[i], MainLine[i], text)) break;
                 int num=1;
                 String cOmAnD = line[i];
-                if (!cOmAnD.contains("if")&&!cOmAnD.contains("while"))
+                if (!cOmAnD.contains("if")&&!cOmAnD.contains("while")||cOmAnD.contains("repeat"))
                     try {
-                    if (IS_NUM_EXIST(MainLine[i], line[i]) == 0) break;
+                    if (IS_NUM_EXIST(MainLine[i], line[i]) == 0) break;//при несуществуюшей цифре - 0
                     else num = IS_NUM_EXIST(MainLine[i], line[i]);
                     cOmAnD = cOmAnD.substring(0, line[i].indexOf("(")).trim();
                 } catch (Throwable t) {
@@ -94,39 +96,36 @@ class KodParser {
         for (int g = 0; g < num; g++) {
             switch (cOmAnD) {
                 case "up":
-                    if (y != 0 && !IS_LAVA(-1, 0)) y--;
+                    if (y != 0 && !IS_LAVA(-1, 0,false)) y--;
                     else if (!pause) {
                         pause = true;
-                        if (IS_LAVA(-1,0))
-                            ActivitySinglePlayer.AlertDialogMessage = "Вверху лава!!!.";
-                        else ActivitySinglePlayer.AlertDialogMessage = "Вверху клеток нет.";
+                        if (IS_LAVA(-1,0,false))
+                            ActivitySinglePlayer.AlertDialogMessage = "Вверху"+ActivitySinglePlayer.AlertDialogMessage;
                     }
                     break;
                 case "down":
-                    if (y != square.length - 1 && !IS_LAVA(1, 0)) y++;
+                    if (y != square.length - 1 && !IS_LAVA(1, 0,false)) y++;
                     else if (!pause) {
                         pause = true;
-                        if (IS_LAVA(1,0))
-                            ActivitySinglePlayer.AlertDialogMessage = "Внизу лава!!!.";
-                        ActivitySinglePlayer.AlertDialogMessage = "Внизу клеток нет.";
+                        if (IS_LAVA(1,0,false))
+                            ActivitySinglePlayer.AlertDialogMessage = "Внизу"+ActivitySinglePlayer.AlertDialogMessage;
                     }
                     break;
                 case "right":
-                    if (x != square[0].length - 1 && !IS_LAVA(0, 1)) x++;
+                    if (x != square[0].length - 1 && !IS_LAVA(0, 1,false)) x++;
                     else if (!pause) {
                         pause = true;
-                        if (IS_LAVA(0,1))
-                            ActivitySinglePlayer.AlertDialogMessage = "Справа лава!!!.";
-                        ActivitySinglePlayer.AlertDialogMessage = "Справа клеток нет.";
+                        if (IS_LAVA(0,1,false))
+                            ActivitySinglePlayer.AlertDialogMessage = "Справа"+ActivitySinglePlayer.AlertDialogMessage;
                     }
                     break;
                 case "left":
-                    if (x != 0 && !IS_LAVA(0, -1)) x--;
+                    if (x != 0 && !IS_LAVA(0, -1,false)) x--;
                     else if (!pause) {
                         pause = true;
-                        if (IS_LAVA(0,-1))
-                            ActivitySinglePlayer.AlertDialogMessage = "Слева лава!!!.";
-                        ActivitySinglePlayer.AlertDialogMessage = "Слева клеток нет.";
+                        if (IS_LAVA(0,-1,false))
+                            ActivitySinglePlayer.AlertDialogMessage = "Слева"+ActivitySinglePlayer.AlertDialogMessage;
+
                     }
                     break;
                 case "repeat":
@@ -149,7 +148,10 @@ class KodParser {
                     break;
                 case "while":
                     LOOP_JUMP = IEidetifyBODY( MainLine, Element,text);
-                    String condition=MainLine[Element].substring(MainLine[Element].indexOf("(")+1,MainLine[Element].indexOf(")"));
+                    String condition=
+                            MainLine[Element].substring(0,MainLine[Element].indexOf("{")+1).
+                                    substring(MainLine[Element].indexOf("(")+1,
+                                            MainLine[Element].indexOf(")"));
                    while (CONDITION_CHECKING(condition)){
                        if (!kodERROR) {
                            if(g==0)symbolslENGTH +=
@@ -191,25 +193,37 @@ class KodParser {
         boolean result=false;
         text=text.trim();
         int dX=0,dY=0;//направление проверки
+        boolean isNOT=false;
         String dir_text;
         try {
-            dir_text=text.substring(0,text.indexOf("_"));
-            switch (dir_text){
-                case ("up"):dY=-1;dX=0; AnimID=1;
-                    break;
-                case ("down"):dY=1;dX=0; AnimID=2;
-                    break;
-                case ("left"):dY=0;dX=-1; AnimID=3;
-                    break;
-                case ("right"):dY=0;dX=1; AnimID=4;
-                    break;
+            do {
+                dir_text = text.substring(0, text.indexOf("_"));
+                switch (dir_text) {
+                    case ("not"):
+                        text = text.substring(text.indexOf("_")+1);
+                        isNOT=!isNOT;
+                        break;
+                    case ("up"):dY = -1;dX = 0;AnimID = 1;break;
+                    case ("down"):dY = 1;dX = 0;AnimID = 2;break;
+                    case ("left"):dY = 0;dX = -1;AnimID = 3;break;
+                    case ("right"):dY = 0;dX = 1;AnimID = 4;break;
+                }
+            }
+            while (dir_text.equals("not"));
+            if (action==ARx.length-1){
+                ActivitySinglePlayer.AlertDialogMessage = ("Привышен лимит команд!\nВозможно в коде бесконечный цикл.");
+                kodERROR = true;
+                return false;
             }
             ARx[action] = x;
             ARy[action] = y;
             Anim[action] = AnimID;
             action++;
             if(text.substring(text.indexOf("_")+1).equals("wall"))
-                result=IS_LAVA(dY,dX);
+                result=IS_LAVA(dY,dX,true);
+            else if(text.substring(text.indexOf("_")+1).equals("sweet"))
+                result=IS_FOOD(dY,dX);
+            if (isNOT)result=!result;
         }
         catch (Throwable t){
             ActivitySinglePlayer.AlertDialogMessage = "Неправильная форма условия:\n" + text;
@@ -217,6 +231,43 @@ class KodParser {
         }
         return result;
     }
+
+    private boolean IS_FOOD(int dY, int dX) {
+        boolean is_FOOD=false;
+        switch (dX) {
+            case (-1):
+                dX = this.x - 1;
+                break;
+            case (1):
+                dX = this.x + 1;
+                break;
+            default:
+                dX = this.x;
+                break;
+        }
+        switch (dY) {
+            case (-1):
+                dY = this.y - 1;
+                break;
+            case (1):
+                dY = this.y + 1;
+                break;
+            default:
+                dY = this.y;
+                break;
+        }
+        if (dY<0 || dY>square.length-1){
+            is_FOOD=false;
+        }
+        else if (dX<0 || dX>square[dY].length-1){
+            is_FOOD=false;
+        }
+        else if (square[dY][dX].ID_NUMBER == 3) {
+            is_FOOD = true;
+        }
+        return (is_FOOD);
+    }
+
     private boolean CHECK_DELIMITOR(String line, String OriginLine, String text) {
         if (line.equals("")) {
             ActivitySinglePlayer.AlertDialogMessage = "Лишний знак ';'";
@@ -265,8 +316,7 @@ class KodParser {
             return 0;
         }
     }
-
-    private boolean IS_LAVA(int dY, int dX) {
+    private boolean IS_LAVA(int dY, int dX,boolean justCheck) {
         boolean is_LAVA=false;
         switch (dX) {
             case (-1):
@@ -292,12 +342,19 @@ class KodParser {
         }
         if (dY<0 || dY>square.length-1){
             is_LAVA=true;
+            if (!justCheck)ActivitySinglePlayer.AlertDialogMessage = " клеток нет!";
         }
         else if (dX<0 || dX>square[dY].length-1){
             is_LAVA=true;
+            if (!justCheck)ActivitySinglePlayer.AlertDialogMessage = " клеток нет!";
         }
         else if (square[dY][dX].ID_NUMBER == 1) {
             is_LAVA = true;
+            if (!justCheck)ActivitySinglePlayer.AlertDialogMessage = " лава!";
+        }
+        else if (square[dY][dX].ID_NUMBER == 2) {
+            is_LAVA = true;
+            if (!justCheck) ActivitySinglePlayer.AlertDialogMessage = " кислота!";
         }
         return (is_LAVA);
     }

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_game"
+            android:gravity="center|top"
+            android:layout_gravity="center|top"
+            android:text="bob"
+            android:textAllCaps="true"
+            android:textColor="@color/BTN"
+            android:textSize="90sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0000"
+                android:id="@+id/imageView4"
+                android:layout_weight="1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <at.markushi.ui.CircleButton
+                    android:src="@drawable/playicon"
+                    app:cb_color="@color/BTN"
+                    android:onClick="onClickPlay"
+                    android:layout_gravity="center"
+                    app:cb_pressedRingWidth="9dip"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6">
+
+        <TextView
+            android:layout_gravity="bottom"
+            android:gravity="center|bottom"
+            android:text="@string/version"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/textView2"
+            android:textSize="25sp"
+            android:textColor="@color/BTN"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_gravity="center"
+            android:id="@+id/imageButton1"
+            android:onClick="OnClickHowToPlay"
+            android:layout_height="70dp"
+            fancy:fb_defaultColor="@color/BTN"
+            fancy:fb_focusColor="#ffffff"
+            fancy:fb_iconResource="@drawable/rules_icon"
+            fancy:fb_radius="50dp"
+            fancy:fb_text=""
+            fancy:fb_textColor="#FFFFFF"
+            android:layout_width="120dp"
+            android:layout_marginEnd="12dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="7dp"/>
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_gravity="center"
+            android:id="@+id/imageButton2"
+            android:onClick="onClickSettings"
+            android:layout_height="70dp"
+            fancy:fb_defaultColor="@color/BTN"
+            fancy:fb_focusColor="#ffffff"
+            fancy:fb_iconResource="@drawable/set_icon"
+            fancy:fb_radius="50dp"
+            fancy:fb_text=""
+            fancy:fb_textColor="#FFFFFF"
+            android:layout_width="120dp"
+            android:layout_marginLeft="12dp"
+            android:layout_alignTop="@+id/imageButton1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="7dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

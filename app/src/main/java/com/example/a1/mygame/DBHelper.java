@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         if (TABLE_NAME.equals("my_levels")) {
-            sqLiteDatabase.execSQL("CREATE TABLE `my_levels` (\n" +
+           sqLiteDatabase.execSQL("CREATE TABLE `my_levels` (\n" +
                     "\t`_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
                     "\t`startx`\tINTEGER NOT NULL,\n" +
                     "\t`starty`\tINTEGER NOT NULL,\n" +
@@ -110,7 +110,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
     public SQLiteDatabase open()throws SQLException {
+        if (ownDB)
         return SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        else return getWritableDatabase();
     }
     //методы работы с данными в БД
     //----------------------------------------------------------------------------------------
@@ -193,6 +195,14 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return "элемента с заданным ID НЕТ!";
     }
+    boolean isRowEx(int id){
+        boolean ch=false;
+        Cursor cursor = READ(id);
+        if (cursor.getCount() > 0)
+            ch=true;
+       return ch;
+
+    }
     //ГЕТЕРЫ
     //-------------------------------------------------------------------------------------------
     public int getSTARTX(int id){
@@ -220,7 +230,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor c = READ(id);
         int result=-1;
         if (c.moveToFirst())
-            result = c.getInt(c.getColumnIndex(COLUMN_ENDX));
+            result = c.getInt(c.getColumnIndex(COLUMN_ENDY));
         return result;
     }
     public String getMAP(int id){
