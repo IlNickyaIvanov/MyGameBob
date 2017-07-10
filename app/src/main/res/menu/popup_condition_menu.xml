@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/con_not"
+        android:title="@string/not"
+        />
+    <item
         android:id="@+id/con_up"
-        android:title="сверху"
+        android:title="@string/up"
         />
     <item
         android:id="@+id/con_down"
-        android:title="снизу"
+        android:title="@string/down"
         />
     <item
         android:id="@+id/con_right"
-        android:title="справа"
+        android:title="@string/from_right"
         />
     <item
         android:id="@+id/con_left"
-        android:title="слева"
+        android:title="@string/from_left"
         />
     <item
         android:id="@+id/con_sweet"
-        android:title="конфета"
+        android:title="@string/sweet"
         />
     <item
         android:id="@+id/con_wall"
-        android:title="стена"
+        android:title="@string/wall"
         />
 </menu>

@@ -1,3 +1,24 @@
-это второй туториал;
-второе сообщение;
-последнее;
+Now let's learn simple commands of movement...#
+To move Bob, you need to enter the command in the field to the right
+Or use the "fast printing" buttons.#
+Bob big sweet tooth)))
+Help him gather all the sweets around. [1|0][0|1][1|2]#
+Well done!
+In order not to repeat the same command many times, you can use this method:
+'right (3);' (In brackets number of steps)#
+Now move Bob into the square with the target.
+P.S. Do not forget to put ";" After the commands! <6|1> #
+Great! It was easy.
+Sometimes you need to repeat several commands.
+For this (in programming in general), there are cycles.
+Try to move Bob to a new target using a loop.#
+Cycles in the game look like this:
+repeat (number) {
+command 1;
+command 2;
+};
+The cycle can be entered manually or with the second button (repeat).
+P.S. Do not forget to put ";" After the end of the cycle! <3|4> #
+Wow! You did it!
+The last step remains. Bob has a new target.
+Remember, the shorter the code is - THE BETTER! <0|3> #

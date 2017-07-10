@@ -58,7 +58,6 @@ public class FragmentTherd extends Fragment {
         mylevelsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(example_activity,"опа",Toast.LENGTH_LONG).show();
                 SELECT_OWN_LEVEL(Integer.parseInt(""+id));
             }
         });

@@ -15,7 +15,7 @@
         fancy:fb_focusColor="#ffffff"
         fancy:fb_radius="30dp"
         fancy:fb_textSize="24sp"
-        fancy:fb_text="ДОБАВИТЬ"
+        fancy:fb_text="@string/add"
         fancy:fb_textColor="#FFFFFF" />
 
     <ListView

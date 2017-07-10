@@ -5,7 +5,7 @@
     android:background="#0000">
 
     <TextView
-        android:text="1 игрок"
+        android:text="@string/player1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
@@ -22,7 +22,7 @@
         android:ems="10"
         android:id="@+id/editText1"
         android:textColor="@android:color/holo_purple"
-        android:hint=" команды..."
+        android:hint="@string/edtext_cmd"
         android:textColorHint="@color/my_color"
         android:background="@color/EditTextBG"
         android:textSize="24sp"

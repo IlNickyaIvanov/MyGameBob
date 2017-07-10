@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
+//режим находится в разработке!
 public class ActivityTwoPlayers extends ActivitySinglePlayer {
 
     private FragmentEdit1 oneFragment;
@@ -35,9 +36,9 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     static KodParser First_kodParser;
     static KodParser Second_kodParser;
 
-    private Animation flip1,flip2;
+    private Animation flip1, flip2;
     private ImageButton player_icon;
-   private boolean first_player_vesible;
+    private boolean first_player_vesible;
 
     FancyButton button;
 
@@ -64,53 +65,63 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                showPopupMenu(view,true);
+                showPopupMenu(view, true);
                 return false;
             }
         });
 
-        flip1 = AnimationUtils.loadAnimation(this,R.anim.flip1);
-        flip2 = AnimationUtils.loadAnimation(this,R.anim.flip2);
+        flip1 = AnimationUtils.loadAnimation(this, R.anim.flip1);
+        flip2 = AnimationUtils.loadAnimation(this, R.anim.flip2);
         flip1.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if(first_player_vesible)player_icon.setBackgroundResource(R.drawable.player2_icon);
+                if (first_player_vesible)
+                    player_icon.setBackgroundResource(R.drawable.player2_icon);
                 else player_icon.setBackgroundResource(R.drawable.player1_icon);
                 player_icon.startAnimation(flip2);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
-        player_icon = (ImageButton)findViewById(R.id.button_sw);
+        player_icon = (ImageButton) findViewById(R.id.button_sw);
 
         MyTimer2 timer = new MyTimer2();
         timer.start();
         LEVEL_GETTER();
-        float startY=(screenY-size*square.length)/2;
-        float startX = (screenX/2-size*square[0].length)/2;
-        player1 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 1, size / 4,startX,startY);
-        player2 = new Robot(this, square[0][0].x, square[0][0].y, size, screenY, onTick2P, 2, -size / 4,startX,startY);
+        float startY = (screenY - size * square.length) / 2;
+        float startX = (screenX / 2 - size * square[0].length) / 2;
+        player1 = new Robot(this, square[0][0].x, square[0][0].y, size, onTick2P, 1, size / 4, startX, startY);
+        player2 = new Robot(this, square[0][0].x, square[0][0].y, size, onTick2P, 2, -size / 4, startX, startY);
         player1.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
         player2.RobotMove(square[StartY][StartX].y, square[StartY][StartX].x, StartY, StartX, false);
 
-        First_kodParser = new KodParser(StartX, StartY, square,ComandLimit);
-        Second_kodParser = new KodParser(StartX, StartY, square,ComandLimit);
+        First_kodParser = new KodParser(StartX, StartY, square, ComandLimit, this);
+        Second_kodParser = new KodParser(StartX, StartY, square, ComandLimit, this);
+
+        Utils.TwoButtonAllertDialog(this, getString(R.string.attention), getString(R.string.two_players),
+                getString(R.string.menu), getString(R.string.cont), 0);
+        restartBLINKY();
     }
 
     @Override
     public void onClickStart(View view) {
         if (!move) {
+            if (blinkySquares.size() != 0)
+                setVISIBLEGROUP((int) (Math.random() * blinkySquares.size()));
             RESTART();
             START_PARSER(3);
             move = true;
 //            //if(!text.isEmpty())editText.setText(reformatKOD(text));
         }
     }
+
     public void onSwitch(View view) {
         transaction = manager.beginTransaction();
         player_icon.startAnimation(flip1);
@@ -121,12 +132,12 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     if (manager.findFragmentByTag(FragmentEdit1.TAG) != null) {
                         if (START_PARSER(1))
-                        transaction.replace(R.id.container, twoFragment, FragmentEdit2.TAG);
-                        first_player_vesible=true;
+                            transaction.replace(R.id.container, twoFragment, FragmentEdit2.TAG);
+                        first_player_vesible = true;
                     } else if (manager.findFragmentByTag(FragmentEdit2.TAG) != null) {
                         if (START_PARSER(2))
-                        transaction.replace(R.id.container, oneFragment, FragmentEdit1.TAG);
-                        first_player_vesible=false;
+                            transaction.replace(R.id.container, oneFragment, FragmentEdit1.TAG);
+                        first_player_vesible = false;
                     }
                 } catch (Throwable t) {
                     break;
@@ -142,7 +153,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         if (move) {
             //если в коде ошибка
             if (AlertDialogMessage != null && (First_kodParser.isKodERROR() || Second_kodParser.isKodERROR())) {
-                Utils.AlertDialog(this, "Ошибка в коде...", AlertDialogMessage, "ок");
+                Utils.AlertDialog(this, getString(R.string.error_code), AlertDialogMessage, getString(R.string.ok));
                 editText.setSelection(kodParser.start, kodParser.stop);
                 ZEROING();
                 move = false;
@@ -186,8 +197,9 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         if (count1 == action1 && count2 == action2 && move) {
             move = false;
             ZEROING();
+            restartBLINKY();
             if (AlertDialogMessage != null && (First_kodParser.isPause() || Second_kodParser.isPause())) {
-                Utils.AlertDialog(this, "Дальше не могу.", AlertDialogMessage, "ок");
+                Utils.AlertDialog(this, getString(R.string.cant), AlertDialogMessage, getString(R.string.ok));
             }
         }
     }
@@ -248,7 +260,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         if (Arrays.equals(NEXT1player, NEXT2player)
                 || Arrays.equals(NEXT1player, NOW2player)
                 || Arrays.equals(NEXT2player, NOW1player))
-        return true;
+            return true;
         else if (Arrays.equals(NOW1player, NOW2player) && !move)
             return true;
         else return false;
@@ -262,7 +274,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
         robot.RobotMove(
                 square[(kodParser.ARy[count])][(kodParser.ARx[count])].y,
                 square[(kodParser.ARy[count])][(kodParser.ARx[count])].x,
-                kodParser.ARy[count], kodParser.ARx[count],CHECK_PLYRS(count));
+                kodParser.ARy[count], kodParser.ARx[count], CHECK_PLYRS(count));
     }
 
     void RESTART() {
@@ -284,13 +296,13 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
     }
 
     @Override
-    void showPopupMenu(View v,boolean isLongClick) {
+    void showPopupMenu(View v, boolean isLongClick) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-        if (v.getId()==R.id.button_mov && !isLongClick)
+        if (v.getId() == R.id.button_mov && !isLongClick)
             popupMenu.inflate(R.menu.popup_move_menu); // Для Android 4.0
-        else if (v.getId()==R.id.button_mov && isLongClick)
+        else if (v.getId() == R.id.button_mov && isLongClick)
             popupMenu.inflate(R.menu.popup_condition_menu);
-        else if (v.getId()==R.id.button_oper)
+        else if (v.getId() == R.id.button_oper)
             popupMenu.inflate(R.menu.popup_operators_menu);
         popupMenu
                 .setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -324,7 +336,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                                     oneFragment.SetText("if ( ){\n \n};\n");
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("if ( ){\n \n};\n");
-                             return true;
+                                return true;
                             case R.id.my_else:
                                 if (oneFragment.isVisible())
                                     oneFragment.SetText("if ( ){\n \n}else {\n \n};\n");
@@ -342,7 +354,7 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                                     oneFragment.SetText("up_");
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("up_");
-                               return true;
+                                return true;
                             case R.id.con_down:
                                 if (oneFragment.isVisible())
                                     oneFragment.SetText("down_");
@@ -360,19 +372,19 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
                                     oneFragment.SetText("left_");
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("left_");
-                               return true;
+                                return true;
                             case R.id.con_wall:
                                 if (oneFragment.isVisible())
                                     oneFragment.SetText("wall");
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("wall");
-                               return true;
+                                return true;
                             case R.id.con_sweet:
                                 if (oneFragment.isVisible())
                                     oneFragment.SetText("sweet");
                                 else if (twoFragment.isVisible())
                                     twoFragment.SetText("sweet");
-                              return true;
+                                return true;
                             default:
                                 return false;
                         }
@@ -387,6 +399,24 @@ public class ActivityTwoPlayers extends ActivitySinglePlayer {
             }
         });
         popupMenu.show();
+    }
+
+    public void onClickRef2(View view) {
+        String text = "";
+        if (oneFragment.isVisible())
+            text = oneFragment.GetText();
+        else if (twoFragment.isVisible())
+            text = twoFragment.GetText();
+        if (!text.isEmpty()) {
+            if (oneFragment.isVisible()) {
+                oneFragment.clear();
+                oneFragment.SetText(reformatKOD(text));
+            } else if (twoFragment.isVisible()) {
+                twoFragment.clear();
+                twoFragment.SetText(reformatKOD(text));
+            }
+            Utils.AlertDialog(this, "...", getString(R.string.re), getString(R.string.ok));
+        } else Utils.AlertDialog(this, "...", getString(R.string.no_text), getString(R.string.ok));
     }
 
     class MyTimer2 extends CountDownTimer {

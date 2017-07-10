@@ -16,47 +16,47 @@ import java.io.OutputStream;
 
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static int DATABASE_VERSION=1;
+    private static int DATABASE_VERSION = 1;
     private static String DB_PATH; // полный путь к базе данных
     private static String DB_NAME;
-    String TABLE_NAME="";
+    String TABLE_NAME = "";
 
     static String COLUMN_ID = "_id";
-    static String COLUMN_STARTX = "startx";
-    static String COLUMN_STARTY = "starty";
-    static String COLUMN_ENDX = "endx";
-    static String COLUMN_ENDY = "endy";
-    static String COLUMN_MAP = "map";
+    private static String COLUMN_STARTX = "startx";
+    private static String COLUMN_STARTY = "starty";
+    private static String COLUMN_ENDX = "endx";
+    private static String COLUMN_ENDY = "endy";
+    private static String COLUMN_MAP = "map";
     static String COLUMN_NAME = "name";
-    static String COLUMN_LINES = "lines";
-    static String COLUMN_COLUMNS = "columns";
+    private static String COLUMN_LINES = "lines";
+    private static String COLUMN_COLUMNS = "columns";
 
     private Context myContext;
 
     private SQLiteDatabase db;
     private boolean ownDB;
 
-    DBHelper(Context context,int DATABASE_VERSION) {
+    DBHelper(Context context, int DATABASE_VERSION) {
         super(context, "custom_lvls.db", null, DATABASE_VERSION);
-        this.DB_NAME =  "custom_lvls.db";
-        this.TABLE_NAME="levels";
-        this.myContext=context;
-        DB_PATH =context.getFilesDir().getPath() + DB_NAME;
-        ownDB=true;
+        DB_NAME = "custom_lvls.db";
+        this.TABLE_NAME = "levels";
+        this.myContext = context;
+        DB_PATH = context.getFilesDir().getPath() + DB_NAME;
+        ownDB = true;
     }
 
     DBHelper(Context context) {
         super(context, "own_lvls", null, DATABASE_VERSION);
-        this.DB_NAME ="own_lvls";
-        this.TABLE_NAME= "my_levels";
-        ownDB=false;
+        DB_NAME = "own_lvls";
+        this.TABLE_NAME = "my_levels";
+        ownDB = false;
         db = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         if (TABLE_NAME.equals("my_levels")) {
-           sqLiteDatabase.execSQL("CREATE TABLE `my_levels` (\n" +
+            sqLiteDatabase.execSQL("CREATE TABLE `my_levels` (\n" +
                     "\t`_id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
                     "\t`startx`\tINTEGER NOT NULL,\n" +
                     "\t`starty`\tINTEGER NOT NULL,\n" +
@@ -67,21 +67,20 @@ public class DBHelper extends SQLiteOpenHelper {
                     "\t`lines`\tINTEGER NOT NULL,\n" +
                     "\t`columns`\tINTEGER NOT NULL\n" +
                     ");");
-            //ADD_NEW_LINE(0,0,3,3,"0000\n0000\n0000\n0000","первый",4,4);
-            int c = 1+1;
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        if (TABLE_NAME.equals("my_levels")){
-            sqLiteDatabase.execSQL("drop table if exist "+ TABLE_NAME);
+        if (TABLE_NAME.equals("my_levels")) {
+            sqLiteDatabase.execSQL("drop table if exist " + TABLE_NAME);
             onCreate(sqLiteDatabase);
         }
     }
+
     //инициализация существующей БД
     //---------------------------------------------------------------------------------------------
-    void create_db(){
+    void create_db() {
         InputStream myInput;
         OutputStream myOutput;
         try {
@@ -104,24 +103,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 myOutput.close();
                 myInput.close();
             }
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             Log.d("DatabaseHelper", ex.getMessage());
         }
     }
-    public SQLiteDatabase open()throws SQLException {
+
+    public SQLiteDatabase open() throws SQLException {
         if (ownDB)
-        return SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
+            return SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
         else return getWritableDatabase();
     }
+
     //методы работы с данными в БД
     //----------------------------------------------------------------------------------------
-    void ADD_NEW_LINE(int startx,int starty,
-                      int endx,int endy,
+    void ADD_NEW_LINE(int startx, int starty,
+                      int endx, int endy,
                       String map, String name,
-                      int lines,int columns){
-        if(ownDB)
-            db=open();
+                      int lines, int columns) {
+        if (ownDB)
+            db = open();
         else
             db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -135,38 +135,40 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_COLUMNS, columns);
         db.insert(TABLE_NAME, null, cv);
     }
-    private Cursor READ (int id){
-        if (id==0)id=1;
-        if(ownDB)
-            db=open();
+
+    private Cursor READ(int id) {
+        if (id == 0) id = 1;
+        if (ownDB)
+            db = open();
         else
             db = getWritableDatabase();
         Cursor c;
-        String selection = COLUMN_ID +" = ?";
-        String [] selectionArgs = new String[]{String.valueOf(id)};
-        c = db.query(TABLE_NAME,null,selection,selectionArgs,null,null,null);
+        String selection = COLUMN_ID + " = ?";
+        String[] selectionArgs = new String[]{String.valueOf(id)};
+        c = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
         return c;
     }
 
-    int CLEAR(){
-        if(ownDB)
-            db=open();
+    int CLEAR() {
+        if (ownDB)
+            db = open();
         else
             db = getWritableDatabase();
-        int clearCount = db.delete(TABLE_NAME,null,null);
+        int clearCount = db.delete(TABLE_NAME, null, null);
         return clearCount;
     }
-    String UPDATE (int id ,
-                   int startx,int starty,
-                   int endx,int endy,
-                   String map, String name,
-                   int lines,int columns){
-        if(ownDB)
-            db=open();
+
+    String UPDATE(int id,
+                  int startx, int starty,
+                  int endx, int endy,
+                  String map, String name,
+                  int lines, int columns) {
+        if (ownDB)
+            db = open();
         else
             db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        if (id!=0){
+        if (id != 0) {
             cv.put(COLUMN_STARTX, startx);
             cv.put(COLUMN_STARTY, starty);
             cv.put(COLUMN_ENDX, endx);
@@ -176,87 +178,97 @@ public class DBHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_LINES, lines);
             cv.put(COLUMN_COLUMNS, columns);
             db.update(TABLE_NAME,
-                    cv , COLUMN_ID + "= ?", new String[]{id+""});
+                    cv, COLUMN_ID + "= ?", new String[]{id + ""});
         }
-        return "обновлена строка "+id;
+        return "обновлена строка " + id;
     }
-    String DELETEbyid(String id){
-        if(ownDB)
-            db=open();
+
+    String DELETEbyid(String id) {
+        if (ownDB)
+            db = open();
         else
             db = getWritableDatabase();
         int delCount = 0;
-        if (!id.equals("")){
+        if (!id.equals("")) {
             delCount = db.delete(TABLE_NAME,
-                    COLUMN_ID +"="+ id,null);
+                    COLUMN_ID + "=" + id, null);
         }
-        if (delCount!=0)
-            return "удалено "+delCount+"строчек";
+        if (delCount != 0)
+            return "удалено " + delCount + "строчек";
         else
             return "элемента с заданным ID НЕТ!";
     }
-    boolean isRowEx(int id){
-        boolean ch=false;
+
+    boolean isRowEx(int id) {
+        boolean ch = false;
         Cursor cursor = READ(id);
         if (cursor.getCount() > 0)
-            ch=true;
-       return ch;
+            ch = true;
+        return ch;
 
     }
+
     //ГЕТЕРЫ
     //-------------------------------------------------------------------------------------------
-    public int getSTARTX(int id){
+    public int getSTARTX(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_STARTX));
         return result;
     }
-    public int getSTARTY(int id){
+
+    public int getSTARTY(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_STARTY));
         return result;
     }
-    public int getENDX(int id){
+
+    public int getENDX(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_ENDX));
         return result;
     }
-    public int getENDY(int id){
+
+    public int getENDY(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_ENDY));
         return result;
     }
-    public String getMAP(int id){
+
+    public String getMAP(int id) {
         Cursor c = READ(id);
-        String result="";
+        String result = "";
         if (c.moveToFirst())
             result = c.getString(c.getColumnIndex(COLUMN_MAP));
         return result;
     }
-    public String getNAME(int id){
+
+    public String getNAME(int id) {
         Cursor c = READ(id);
-        String result="";
+        String result = "";
         if (c.moveToFirst())
             result = c.getString(c.getColumnIndex(COLUMN_NAME));
         return result;
     }
-    public int getLINES(int id){
+
+    public int getLINES(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_LINES));
         return result;
     }
-    public int getCOLUMNS(int id){
+
+    public int getCOLUMNS(int id) {
         Cursor c = READ(id);
-        int result=-1;
+        int result = -1;
         if (c.moveToFirst())
             result = c.getInt(c.getColumnIndex(COLUMN_COLUMNS));
         return result;

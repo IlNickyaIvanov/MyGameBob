@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BoB</string>
+    <string name="how_title">Как играть</string>
+    <string name="version">версия 3.0</string>
+    <string name="nolvl" formated="false">Сейчас здесь нет ни одного уровня.\n
+        Нажмите  ДОБАВИТЬ для создания нового.</string>
+
+    <string name="play">играть</string>
+    <string name="how_to_play">как играть:</string>
+    <string name="settings">настройки</string>
+    <string name="bob_name">БОБ</string>
+    <string name="attack">Внимание!\nЩенки Атакуют!</string>
+    <string name="htp_text" formated="false">
+        Боб непростой исполнитель. У него есть разные команды:\n
+        <b>ДВИЖЕНИЕ:</b>\n
+       <b> вверх:</b> \n
+          up (кол-во шагов);\n
+         <b> вниз:</b> \n
+          down (кол-во шагов);\n
+       <b> направо:</b>\n
+          right (кол-во шагов);\n
+        <b> налево:</b>  \n
+          left (кол-во шагов);\n
+        <b>ЦИКЛЫ</b>\n
+       <b> число повторений:</b> \n
+          repeat (число){\n
+              команды…\n
+          };\n
+        <b> условие для повторения:</b> \n
+          while (условие){\n
+              команды…\n
+          };\n
+        Написание условия также заслуживает отедльного Внимания.
+        Общяя структура:\n
+        <b>(направление_объект)</b>\n
+        Направлений 4, а объектов 2 (wall,sweet). Также можно добавить в начале (not_…).
+        Частица перевернет условие, стоящее после него.
+        Например, если после (not) условие оказалось правдой, то станет ложью, а если была ложь, то станет правда.\n
+        <b> ЕСЛИ-ИНАЧЕ</b>\n
+          if (условие){\n
+              команды…\n
+          }else{\n
+              команды…\n
+          };\n
+        Также можно использовать несколько <b>else</b> с условием (else if…) или вовсе не использовать <b>else</b>.
+    </string>
+    <string name="title_activity_menu">menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="cor_start">СТАРТ</string>
+    <string name="cor_target">ЦЕЛЬ</string>
+    <string name="column">Солбцы</string>
+    <string name="lines">Строки</string>
+    <string name="edtext_cmd">команды...</string>
+    <string name="player1">1 игрок</string>
+    <string name="player2">2 игрок</string>
+    <string name="tutorial">Обучение </string>
+    <string name="location1">Разминка</string>
+    <string name="location2">Локация 2</string>
+    <string name="location3">Локация 3</string>
+    <string name="add">ДОБАВИТЬ</string>
+    <string name="apply">ПРИМЕНИТЬ</string>
+    <string name="enter_name">Введите текст:</string>
+    <string name="show_intro">Показывать Интро</string>
+    <string name="minigame_start">Старт мини игры через (с)</string>
+
+    <string name="done_tutor">Вы уже прошли это обучение. Хотите повторить?</string>
+    <string name="no">нет</string>
+    <string name="yes">да</string>
+    <string name="complete">" пройдено!"</string>
+    <string name="next_tutor">Хотите перейти к следующему уроку?</string>
+    <string name="all_tutor">Поздравляю, Вы прошли все уроки! \nХотите перейти к уровням?</string>
+    <string name="attention">ВНИМАНИЕ!</string>
+    <string name="puppies">Вас не было слишком долго…\nЩенкам стало скучно и теперь они жаждут ласки!</string>
+    <string name="pat">погладить всех</string>
+    <string name="second">" секунду  "</string>
+    <string name="seconds">" секунды "</string>
+    <string name="sec">" секунд "</string>
+    <string name="congratulation">Поздралвяем!</string>
+    <string name="spend">"Вы потратили: "</string>
+    <string name="life">своей жизни впустую.</string>
+    <string name="ok">ок</string>
+    <string name="left_pet"><![CDATA["осталось погладить>> "]]></string>
+    <string name="exit">Нажми еще раз для выхода.</string>
+    <string name="no_start">Вы не задали стартовые координаты!</string>
+    <string name="enter">задать</string>
+    <string name="name">Введите имя:</string>
+    <string name="level">Уровень</string>
+    <string name="next_lvl">Следующий уровень находится в разработке.\n</string>
+    <string name="soon">В скором времени он будет доступен…</string>
+    <string name="select_an">Выбрать другой</string>
+    <string name="company">Компания</string>
+    <string name="battle">Батл</string>
+    <string name="my_lvl">Мои Уровни</string>
+    <string name="task">"Задание "</string>
+    <string name="try_to">Постарайся выполнить это задание без помощи автоввода.</string>
+    <string name="re">Код успешно переформатирован!</string>
+    <string name="no_text">Нет текста для\n переформатирования кода!</string>
+    <string name="compl2">"  Пройден!"</string>
+    <string name="next">ДАЛЬШЕ</string>
+    <string name="try_more">Боб не выполнил задание.\nПопробуй еще…</string>
+    <string name="error_code">Ошибка в коде…</string>
+
+    <string name="task_compl1">Ух ты! А ты не такой салага, как я думал!</string>
+    <string name="task_compl2">Ты справился!А я и не сомневался…</string>
+    <string name="task_compl3">Пффф…Это было легко.А вот что на счет следующего?</string>
+    <string name="task_compl4">Потрясающе! Похоже среди нас компьютерный гений))</string>
+    <string name="task_compl5">Невероятно!Как же много команд и времени…</string>
+    <string name="task_compl0">Молодец!Так держать!</string>
+
+    <string name="two_players">Это тестовый режим. Возможны баги и вылеты!</string>
+    <string name="menu">Меню</string>
+    <string name="cont">Продолжить</string>
+    <string name="cant">Дальше не могу.</string>
+    <string name="wh_com">А где сами команды?</string>
+    <string name="ch_del">Пожалуйста,проверьте разделение команд по \';\'.</string>
+    <string name="bad_cond">Неправильня форма условия:\n</string>
+    <string name="ch_com">Пожалуйста, проверьте правильность написания команд.</string>
+    <string name="no_food">Здесь нечего кушать..(</string>
+    <string name="up">Вверху</string>
+    <string name="down">Внизу</string>
+    <string name="from_right">Справа</string>
+    <string name="from_left">Слева</string>
+    <string name="com_lim">Привышен лимит команд!\nВозможно, в коде бесконечный цикл.</string>
+    <string name="exc">Лишний знак \';\'</string>
+    <string name="after">После:\n</string>
+    <string name="wait">\nОжидается знак \';\'.</string>
+    <string name="unknown">Неизвестная команда:\n</string>
+    <string name="unkn_num">Нет такого числа.</string>
+    <string name="no_sq">" клеток нет!"</string>
+    <string name="lava">" лава!"</string>
+    <string name="kisl">" кислота!"</string>
+    <string name="sq_dis">" клетка исчезла!"</string>
+    <string name="misd_op">Пропущен ОТКРЫВАЮЩИЙ тег!</string>
+    <string name="misd_cl">Провущен ЗАКРЫВАЮЩИЙ тег!</string>
+    <string name="wait_else">ОЖИДАЕТСЯ ELSE или ;\n</string>
+    <string name="cl_key">\'НАЗАД\' - для закрытия клавиатуры.</string>
+    <string name="not">не</string>
+    <string name="sweet">конфета</string>
+    <string name="wall">стена</string>
+    <string name="go_up">вверх</string>
+    <string name="go_down">вниз</string>
+    <string name="eat">съесть</string>
+    <string name="repeat">повтори</string>
+    <string name="my_if">если</string>
+    <string name="if_else">если-иначе</string>
+    <string name="my_while">пока</string>
+    <string name="twp_choose">Теперь выберите уровень…</string>
+    <string name="two_pl">Два игрока</string>
+    <string name="right">направо</string>
+    <string name="left">налево</string>
+
+</resources>

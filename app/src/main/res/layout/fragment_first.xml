@@ -14,7 +14,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:text="Обучение"
+                android:text="@string/tutorial"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
@@ -32,6 +32,8 @@
                 android:layout_gravity="center">
 
                 <TableRow
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -79,7 +81,7 @@
             </TableLayout>
 
             <TextView
-                android:text="Локация 1"
+                android:text="@string/location1"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_marginTop="50dp"
@@ -88,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4" />
+
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -100,11 +103,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="4"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button16"
+                        android:id="@+id/button4"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -112,11 +116,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="5"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button17"
+                        android:id="@+id/button5"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -125,11 +130,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="6"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button18"
+                        android:id="@+id/button6"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -142,11 +148,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="7"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button19"
+                        android:id="@+id/button7"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -154,11 +161,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="8"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button20"
+                        android:id="@+id/button8"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -167,11 +175,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="9"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button21"
+                        android:id="@+id/button9"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -184,11 +193,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="10"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button22"
+                        android:id="@+id/button10"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -196,11 +206,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="11"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button23"
+                        android:id="@+id/button11"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -209,11 +220,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="12"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button24"
+                        android:id="@+id/button12"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -222,7 +234,7 @@
                 </TableRow>
             </TableLayout>
             <TextView
-                android:text="Локация 2"
+                android:text="@string/location2"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_marginTop="50dp"
@@ -243,11 +255,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="13"
+                        android:id="@+id/button13"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button25"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -255,11 +268,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="14"
+                        android:id="@+id/button14"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button26"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -268,11 +282,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="15"
+                        android:id="@+id/button15"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button27"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -285,11 +300,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="16"
+                        android:id="@+id/button16"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button28"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -297,11 +313,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="17"
+                        android:id="@+id/button17"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button29"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -310,11 +327,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="18"
+                        android:id="@+id/button18"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button30"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -327,11 +345,12 @@
                     android:layout_margin="10dp">
 
                     <Button
+                        android:text="19"
+                        android:id="@+id/button19"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/button31"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:textSize="30sp"
@@ -339,11 +358,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="20"
+                        android:id="@+id/button20"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button32"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -352,11 +372,12 @@
                         android:layout_weight="1" />
 
                     <Button
+                        android:text="21"
+                        android:id="@+id/button21"
                         android:onClick="onLevelBtn"
                         android:background="@drawable/button_background"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:id="@+id/button33"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="30sp"
@@ -365,7 +386,7 @@
                 </TableRow>
             </TableLayout>
             <TextView
-                android:text="Локация 3"
+                android:text="@string/location3"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_marginTop="50dp"

@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/repeat"
-        android:title="повтори"
+        android:title="@string/repeat"
         />
     <item
         android:id="@+id/my_if"
-        android:title="если"
+        android:title="@string/my_if"
         />
     <item
         android:id="@+id/my_else"
-        android:title="если-иначе"
+        android:title="@string/if_else"
         />
     <item
         android:id="@+id/my_while"
-        android:title="пока"
+        android:title="@string/my_while"
         />
 </menu>

@@ -33,4 +33,10 @@ public class FragmentEdit1 extends Fragment {
     public void SetText(String text){
         editText1.getText().insert(editText1.getSelectionStart(),text);
     }
+    public String GetText(){
+        return editText1.getText().toString();
+    }
+    public void clear(){
+        editText1.setText("");
+    }
 }

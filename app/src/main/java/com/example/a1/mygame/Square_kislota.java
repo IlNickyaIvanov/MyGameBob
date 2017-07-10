@@ -6,8 +6,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class Square_kislota extends Square {
-    Activity main;
+class Square_kislota extends Square {
+    private Activity main;
     Square_kislota(ActivitySinglePlayer main, float x, float y, int size){
         super(main,x,y,size,2);
         this.main=main;
@@ -24,7 +24,7 @@ public class Square_kislota extends Square {
             bbls[i] = new Bubble(main,x,y,size,(int)(Math.random()*1000));
         }
     }
-    class Bubble{
+    private class Bubble{
         ImageView bubble;
         Animation bubbleAnim,zap;
         float mX, mY,sqX,sqY;

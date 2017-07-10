@@ -5,9 +5,10 @@
     android:background="#0000">
 
     <Button
-        android:text="ТЕСТ"
+        android:text="test"
+        android:layout_margin="10dp"
         android:id="@+id/twoplayers"
-        android:onClick="onLevelBtn"
+        android:onClick="onTwoPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

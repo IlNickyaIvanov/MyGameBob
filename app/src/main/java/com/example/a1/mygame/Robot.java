@@ -2,32 +2,29 @@ package com.example.a1.mygame;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
+//класс Боба здесь все методы, контролирующие его
 class Robot {
     float x, y;
     int sqX, sqY;
     int size;
     private int onTickMove;
-    private int screenY;
     private int BUSY;
-    boolean pause=true;
-    float corY,corX;
+    private boolean pause=true;
+    private float corY,corX;
 
     private ImageView body, eye;
     private AnimationDrawable anim_body, anim_eye;
-    TranslateAnimation translateAnimation,MoveMySelf;
 
-    ImageView image1,image2,image3;
-    Animation alphaAnimation1,alphaAnimation2,alphaAnimation3;
-
-    Robot(Activity main, float x, float y, int size, int screenY,int onTick,int bodyType,int BUSYtype,float corX,float corY) {
+    private ImageView image1,image2,image3;
+    private Animation alphaAnimation1,alphaAnimation2,alphaAnimation3;
+    //создание Боба и передача всех необходимых данных
+    Robot(Activity main, float x, float y, int size,int onTick,int bodyType,int BUSYtype,float corX,float corY) {
         this.corX=corX;
         this.corY = corY;
         body = new ImageView(main);
@@ -40,7 +37,6 @@ class Robot {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.screenY = screenY;
         this.onTickMove = onTick;
         this.BUSY=BUSYtype;
 
@@ -67,7 +63,7 @@ class Robot {
 
         image1.setX(x);image1.setY(y);
         image2.setX(x);image2.setY(y);
-        image3.setX(y);image3.setY(y);
+        image3.setX(x);image3.setY(y);
 
         if (bodyType==1)
         body.setBackgroundResource(R.drawable.body_anim1);
@@ -89,7 +85,7 @@ class Robot {
         image2.setVisibility(View.INVISIBLE);
         image3.setVisibility(View.INVISIBLE);
     }
-
+    //метод, отвечающй за перемещение
     void RobotMove(float y, float x, int sqY, int sqX,boolean isBUSY) {
         if (!pause){
             body.setX(this.x);
@@ -100,7 +96,7 @@ class Robot {
         }
         int n=0;
         if (isBUSY) n=BUSY;
-        translateAnimation = new TranslateAnimation(this.x-corX, x-corX, this.y - corY, y -corY+n);
+        TranslateAnimation translateAnimation = new TranslateAnimation(this.x - corX, x - corX, this.y - corY, y - corY + n);
         translateAnimation.setDuration(onTickMove);
         translateAnimation.setFillAfter(true);
 
@@ -117,17 +113,18 @@ class Robot {
         this.sqX = sqX;
         this.sqY = sqY;
     }
+    //для обновления координат
     void MoveMySelf(boolean isBUSY){
         int n=0;
         if (isBUSY) n=BUSY;
-        MoveMySelf = new TranslateAnimation(this.x-corX, this.x-corX, this.y - corY, this.y -corY+n);
-        MoveMySelf.setDuration(onTickMove);
-        MoveMySelf.setFillAfter(true);
-        body.startAnimation(MoveMySelf);
-        eye.startAnimation(MoveMySelf);
-        MoveMySelf.hasEnded();
+        TranslateAnimation moveMySelf = new TranslateAnimation(this.x-corX, this.x-corX, this.y-corY+n, this.y-corY+n);
+        moveMySelf.setDuration(onTickMove);
+        moveMySelf.setFillAfter(true);
+        body.startAnimation(moveMySelf);
+        eye.startAnimation(moveMySelf);
+        moveMySelf.hasEnded();
     }
-
+    //анимация "анализирования"
     void SearchAnim (int AnimID){
         switch (AnimID){
             case(1):
@@ -155,5 +152,12 @@ class Robot {
         image2.startAnimation(alphaAnimation2);
         image3.startAnimation(alphaAnimation3);
     }
-
+    void stopAnim(){
+        anim_body.stop();
+        anim_eye.stop();
+    }
+    void restartAnim(){
+        anim_body.start();
+        anim_eye.start();
+    }
 }

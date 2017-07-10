@@ -10,53 +10,45 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+//полезные и универсальные методы
 class Utils {
-    static  boolean AlertDialogVisible;
-
-
-    private static  boolean ADPositBut;
-    public static void makeToast(Activity main, String text){
+    private static boolean ADPositBut;
+    private static boolean ADVisible;
+    static void makeToast(Activity main, String text){
         Toast.makeText(main,text,Toast.LENGTH_SHORT).show();
     }
     public static void AlertDialog(Activity main, String title, String Message, String TextButton ){
         ActivitySinglePlayer.AlertDialogMessage=null;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(main);
-        AlertDialogShow(builder,title,Message,TextButton);
-    }
-    private static void AlertDialogShow(AlertDialog.Builder builder,String title, String Message, String TextButton){
-        AlertDialogVisible = true;
         builder.setTitle(title)
                 .setMessage(Message)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
                         dialogInterface.cancel();
-                        AlertDialogVisible = false;
                     }
                 })
                 .setNegativeButton(TextButton,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
-                                AlertDialogVisible = false;
+                                ADVisible=false;
                             }
                         });
 
         AlertDialog alert = builder.create();
-        alert.show();
+        if(!( main).isFinishing())
+        {
+            alert.show();
+            ADVisible=true;
+        }
+        else {
+            AlertDialog(ActivitySinglePlayer.singleplayer,title,Message,TextButton);
+            Tutorial.activity=ActivitySinglePlayer.singleplayer;
+        }
     }
-
-    static boolean isAlertDialogVisible() {
-        return AlertDialogVisible;
-    }
-
-    public static boolean isADPositBut() {return ADPositBut;}
-
-
-
     static AlertDialog.Builder TwoButtonAllertDialog(final Activity main,
                                       String title, String message,
                                       String TextLeftButton, String TextRightButton, final int level){
@@ -67,29 +59,40 @@ class Utils {
             public void onClick(DialogInterface dialog, int arg1) {
                 Intent intent = new Intent(main, ActivityLevelMenu.class);
                 main.startActivity(intent);
-                AlertDialogVisible = false;
+                main.finish();
                 ADPositBut=false;
+                ADVisible=false;
             }
         });
         ad.setPositiveButton(TextRightButton, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                if (level!=0) {
                    Intent intent = new Intent(main, ActivityLevelMenu.class);
-                   intent.putExtra("level_num", level + 1);//кол-во уровней требует обновления
+                   intent.putExtra("level_num", level + 1);
                    main.startActivity(intent);
                    main.finish();
                }
-                else  dialog.cancel();
-                AlertDialogVisible = false;
+                else {
+                   dialog.cancel();
+               }
+                Tutorial.ZEROING();
                 ADPositBut=true;
+                ADVisible=false;
             }
         });
         ad.setCancelable(false);
-        ad.show();
-        AlertDialogVisible = true;
+        if(!( main).isFinishing())
+        {
+            ad.show();
+            ADVisible=true;
+        }
+        else {
+            TwoButtonAllertDialog(ActivitySinglePlayer.singleplayer,title,message,TextLeftButton,TextRightButton,level);
+            Tutorial.activity=ActivitySinglePlayer.singleplayer;
+        }
         return ad;
     }
-    public static void EditAlert (String textMes, String edMes, final Context context, final Activity activity){
+    static void EditAlert(String textMes, String edMes, final Context context, final Activity activity){
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.promt, null);
 
@@ -122,7 +125,7 @@ class Utils {
                                 activity.finish();
                             }
                         })
-                .setNegativeButton("Отмена",
+                .setNegativeButton("Abort",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 dialog.cancel();
@@ -136,5 +139,13 @@ class Utils {
         alertDialog.show();
 
     }
-
+    static boolean isADVisible() {
+        return ADVisible;
+    }
+    static boolean isADPositBut() {
+        return ADPositBut;
+    }
+    static void setADPositBut(boolean ADPositBut) {
+        Utils.ADPositBut = ADPositBut;
+    }
 }

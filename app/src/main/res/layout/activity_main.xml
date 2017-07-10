@@ -8,9 +8,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.a1.mygame.ActivityMain"
-    android:background="@drawable/backgroundvertical">
+    android:background="@drawable/backgroundvertical"
+    >
 
     <LinearLayout
+        android:id="@+id/up_layout"
         android:layout_weight="1"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -41,6 +43,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/down_layout"
         android:layout_weight="8"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

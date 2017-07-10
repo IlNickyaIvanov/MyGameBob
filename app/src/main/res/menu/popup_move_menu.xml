@@ -3,18 +3,22 @@
 
     <item
         android:id="@+id/up"
-        android:title="вверх"
+        android:title="@string/go_up"
         />
     <item
         android:id="@+id/down"
-        android:title="вниз"
+        android:title="@string/go_down"
         />
     <item
         android:id="@+id/right"
-        android:title="направо"
+        android:title="@string/right"
         />
     <item
         android:id="@+id/left"
-        android:title="налево"
+        android:title="@string/left"
+        />
+    <item
+        android:id="@+id/eat"
+        android:title="@string/eat"
         />
 </menu>

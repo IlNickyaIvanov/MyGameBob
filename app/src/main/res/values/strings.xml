@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BoB</string>
-    <string name="how_title">Как играть</string>
-    <string name="version">версия 3.0</string>
-    <string name="nolvl" formated="false">Сейчас здесь нет ни одного уровня.\n
-        Нажмите  ДОБАВИТЬ для создания нового.</string>
+    <string name="how_title">how to play</string>
+    <string name="version">version 3.0</string>
+    <string name="nolvl" formated="false">There are no levels.\n
+        Click CREATE to create a new one.</string>
 
-    <string name="play">играть</string>
-    <string name="how_to_play">как играть</string>
-    <string name="settings">настройки</string>
+    <string name="play">play</string>
+    <string name="how_to_play">how to play:</string>
+    <string name="settings">settings</string>
     <string name="bob_name">БОБ</string>
-    <string name="attack">Внимание!\nЩенки Атакуют!</string>
+    <string name="attack">Attention!\nPuppies are attacking now!</string>
     <string name="htp_text" formated="false">
-        <b>Основные команды:</b>\n
-        \n
-       <b> вверх:</b> \n
-    up (кол-во шагов);\n
-         <b>вниз:</b> \n
-    down (кол-во шагов);\n
-       <b> направо:</b>\n
-   right (кол-во шагов);\n
-        <b> налево:</b>  \n
-    left (кол-во шагов);\n
-        \n
-    <b>Циклы</b> \n(повторение команд)\n\n
-        С числом повторений: \n
-    <b>repeat (число повторов){</b>\n
-        команды для\n
-        повторения\n
-        <b>}</b>\n
-        С условием повторения: \n
-     <b>while (условие){</b>\n
-        команды для\n
-        повторения\n
-        <b>}</b>\n
+        Bob is not an easy performer. He has different commands: \n
+        <b>MOTION:</b> \n
+       <b> up: </b> \n
+        up (number of steps); \n
+        <b> down: </b> \n
+        down (number of steps); \n
+       <b> Right: </b> \n
+        right (number of steps); \n
+        <b> Left: </b> \n
+        left (number of steps); \n
+        <b> LOOPS </b> \n
+       <b> repeat some n times: </b> \n
+        repeat (number) {\n
+              commands … \n
+        }; \n
+       <b> while condition is true: </b> \n
+        while (condition) {\n
+              commands … \n
+          }; \n
+        The writing of a condition also deserves a detached Attention.
+        Common structure: \n
+        <b> (direction_object) </b> \n
+        Directions 4, and objects 2 (wall, sweet). You can also add at the beginning (not_ …).
+        This will invert the condition after it.
+        For example, if after (not) the condition turns out to be true, it will be a lie,
+        and if there was a lie, then the truth will turn out. \n
+        <b> IF ELSE </b> \n
+          if (condition) {\n
+              commands … \n
+          } else {\n
+              commands … \n
+          }; \n
+        You can also use several <b> else </b> with the condition (else if …) or do not use <b> else </b>.
     </string>
     <string name="title_activity_menu">menu</string>
 
@@ -41,4 +52,106 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="cor_start">START</string>
+    <string name="cor_target">TARGET</string>
+    <string name="column">COLUMNS</string>
+    <string name="lines">LINES</string>
+    <string name="edtext_cmd">commands…</string>
+    <string name="player1">1 player</string>
+    <string name="player2">2 player</string>
+    <string name="tutorial">Tutorial </string>
+    <string name="location1">Easy</string>
+    <string name="location2">Medium</string>
+    <string name="location3">Hard</string>
+    <string name="add">CREATE</string>
+    <string name="apply">APPLY</string>
+    <string name="enter_name">Enter the name:</string>
+    <string name="show_intro">Show Intro</string>
+    <string name="minigame_start">mini game start(sec)</string>
+
+    <string name="done_tutor">You have already passed this training. Do you want to repeat?</string>
+    <string name="no">no</string>
+    <string name="yes">Yes</string>
+    <string name="complete">" passed!"</string>
+    <string name="next_tutor">Want to go to the next lesson?</string>
+    <string name="all_tutor">Congratulations, You passed all the lessons! \n jump to levels?</string>
+    <string name="attention">ATTENTION!</string>
+    <string name="puppies">You were not too long…\nPuppies got bored and now they\'re looking for affection!</string>
+    <string name="pat">Pat</string>
+    <string name="second">" second "</string>
+    <string name="seconds">" second "</string>
+    <string name="sec">" seconds "</string>
+    <string name="congratulation">congratulation!</string>
+    <string name="spend">"You have spent: "</string>
+    <string name="life">in vain.</string>
+    <string name="ok">OK</string>
+    <string name="left_pet"><![CDATA["left Pat>> "]]></string>
+    <string name="exit">Press again to exit.</string>
+    <string name="no_start">You don\'t specify the starting coordinates!</string>
+    <string name="enter">set</string>
+    <string name="name">Enter name:</string>
+    <string name="level">Level</string>
+    <string name="next_lvl">the Next level is in development.\n</string>
+    <string name="soon">soon it will be available…</string>
+    <string name="select_an">Choose another</string>
+    <string name="company">Сompany</string>
+    <string name="battle">Battle</string>
+    <string name="my_lvl">My levels</string>
+    <string name="task">"Task "</string>
+    <string name="try_to">Try to perform this task without using \'fast print\' .</string>
+    <string name="re">Code has been reformatted!</string>
+    <string name="no_text">No text for\n reformatting of code!</string>
+    <string name="compl2">" Passed!"</string>
+    <string name="next">NEXT</string>
+    <string name="try_more">Bob failed.Try it again…</string>
+    <string name="error_code">Error in the code…</string>
+
+    <string name="task_compl1">Wow! You\'re not such a rookie as I thought!</string>
+    <string name="task_compl2">You did it!And I do not doubt…</string>
+    <string name="task_compl3">Pfff…It was easy.But what about the following?</string>
+    <string name="task_compl4">Awesome! It seems among us computer whiz))</string>
+    <string name="task_compl5">Incredible!How many teams and time…</string>
+    <string name="task_compl0">well Done!Keep it up!</string>
+
+    <string name="two_players">This is a test mode. There may be bugs and crashes!</string>
+    <string name="menu">Menu</string>
+    <string name="cont">Continue</string>
+    <string name="cant">can not.</string>
+    <string name="wh_com">where is the commands themselves?</string>
+    <string name="ch_del">Please check the division of commands \';\'.</string>
+    <string name="bad_cond">Bad form of condition:\n</string>
+    <string name="ch_com">Please check the spelling of commands.</string>
+    <string name="no_food">there\'s nothing to eat..(</string>
+    <string name="up">above</string>
+    <string name="down">bottom </string>
+    <string name="from_right">right</string>
+    <string name="from_left">left</string>
+    <string name="com_lim">Exceeding the limit of commands!\Maybe, the code in an infinite loop.</string>
+    <string name="exc">the extra \';\'</string>
+    <string name="after">After: \n</string>
+    <string name="wait"> expected sign \';\'.</string>
+    <string name="unknown">Unknown command:\n</string>
+    <string name="unkn_num">there is No such number.</string>
+    <string name="no_sq">" no square."</string>
+    <string name="lava">" lava!"</string>
+    <string name="kisl">" acid!"</string>
+    <string name="sq_dis">" the square is gone!"</string>
+    <string name="misd_op">Missed starting tag!</string>
+    <string name="misd_cl">Missed CLOSING tag!</string>
+    <string name="wait_else">EXPECTED ELSE or \;\n</string>
+    <string name="cl_key">\'BACK\' - to close the keyboard.</string>
+    <string name="not">not</string>
+    <string name="sweet">sweet</string>
+    <string name="wall">wall</string>
+    <string name="go_up">up</string>
+    <string name="go_down">down</string>
+    <string name="eat">eat</string>
+    <string name="repeat">repeat</string>
+    <string name="my_if">if</string>
+    <string name="if_else">if-else</string>
+    <string name="my_while">while</string>
+    <string name="twp_choose">Select level…</string>
+    <string name="two_pl">Two players</string>
+    <string name="right">right</string>
+    <string name="left">left</string>
 </resources>

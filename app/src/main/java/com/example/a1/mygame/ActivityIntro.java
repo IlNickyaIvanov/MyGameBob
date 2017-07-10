@@ -1,6 +1,5 @@
 package com.example.a1.mygame;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,14 +15,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+//активность - интро
 public class ActivityIntro extends AppCompatActivity {
-    ImageView intro,eye;
+    ImageView intro, eye;
     Animation introAnim;
     AnimationDrawable anim_eye;
     Intent intent;
-    int screenWidth,screenHeight;
-    static boolean isIntro=true;
+    int screenWidth, screenHeight;
+    static boolean isIntro = true;
     SharedPreferences mSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,28 +32,30 @@ public class ActivityIntro extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        screenWidth=metrics.widthPixels;
-        screenHeight=metrics.heightPixels;
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        intent = new Intent (ActivityIntro.this,ActivityMain.class);
+        intent = new Intent(ActivityIntro.this, ActivityMain.class);
+        //получение данных о старте интро или его пропуске
         try {
             mSettings = getSharedPreferences(ActivitySettings.APP_PREFERENCES, Context.MODE_PRIVATE);
-            if (mSettings.contains(ActivitySettings.APP_PREFERENCES_INTRO)) {
-                isIntro = mSettings.getBoolean(ActivitySettings.APP_PREFERENCES_INTRO, true);
-            }else isIntro=true;
-        }catch (Throwable t){
-            isIntro=true;
+            isIntro = !mSettings.contains(ActivitySettings.APP_PREFERENCES_INTRO) || mSettings.getBoolean(ActivitySettings.APP_PREFERENCES_INTRO, true);
+        } catch (Throwable t) {
+            isIntro = true;
         }
 
-        if (isIntro){
+        //само интро
+        if (isIntro) {
             intro = new ImageView(this);
             eye = new ImageView(this);
             this.addContentView(intro, new RelativeLayout.LayoutParams(screenWidth, screenHeight));
-            this.addContentView(eye, new RelativeLayout.LayoutParams(screenWidth/3, screenWidth/3));
-            intro.setX(0);intro.setY(0);
+            this.addContentView(eye, new RelativeLayout.LayoutParams(screenWidth / 3, screenWidth / 3));
+            intro.setX(0);
+            intro.setY(0);
             intro.setImageResource(R.drawable.intro);
-            eye.setX((screenWidth-screenWidth/3)/2);eye.setY((screenHeight-screenWidth/3)/2);
-            introAnim = AnimationUtils.loadAnimation(this,R.anim.intro);
+            eye.setX((screenWidth - screenWidth / 3) / 2);
+            eye.setY((screenHeight - screenWidth / 3) / 2);
+            introAnim = AnimationUtils.loadAnimation(this, R.anim.intro);
             eye.setBackgroundResource(R.drawable.eye_anim);
             anim_eye = (AnimationDrawable) eye.getBackground();
             anim_eye.start();
@@ -60,7 +63,8 @@ public class ActivityIntro extends AppCompatActivity {
             intro.startAnimation(introAnim);
             introAnim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {}
+                public void onAnimationStart(Animation animation) {
+                }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -72,10 +76,13 @@ public class ActivityIntro extends AppCompatActivity {
                 }
 
                 @Override
-                public void onAnimationRepeat(Animation animation) {}
+                public void onAnimationRepeat(Animation animation) {
+                }
             });
-        }else{
+        } else {
+            //старт основной активности
             startActivity(intent);
-            this.finish();}
+            this.finish();
         }
     }
+}

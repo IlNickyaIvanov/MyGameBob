@@ -1,25 +1,10 @@
-Добро Пожаловать!
-Давайте же скорее начнем!#
-Чтобы переместить Боба, нужно ввести команду в поле справа.
-P.S. Для удобства в правом верхнем углу есть кнопки "автонабора"...#
-Боб тот еще сладкоежка)))
-Помоги ему собрать все сладости вокруг.[1|0][0|1][1|2]#
-Молодец!
-Теперь перемести Боба в клетку с целью.#
-Для этого удобнее использовать такие команды:
-'right (3);' (в скобках колличество шагов)
-P.S. Не забывайте ставить ";" после команды!<6|1>#
-Здорово! Это было легко.
-Иногда, бывают такие случаи, когда требуется повторить несколько команд.
-Для этого (в программировании в целом) существуют циклы.
-Попробуй переместить Боба в новую цель с помощью цикла.#
-Циклы в игре выглядят так:
-repeat (кол-во){
-команда 1;
-команда 2;
-} ;
-Цикл можно ввести вручную или с помощью второй кнопки (повтори).
-P.S. Не забывайте ставить ";" после конца цикла!<3|4>#
-Ух ты! Ты справился!
-Остался последний шаг. У Боба новая цель.
-Помни, чем короче код - ТЕМ ЛУЧШЕ!<0|3>#
+Welcome!
+Let's start!#
+Before we begin to study Bob's commands, let's look at the buttons...#
+The first two buttons on the right are the commands for the "fast printing".
+They are convenient to use, but the real pros all print by hand))#
+At the bottom there are buttons "*?*", "RE" and "START".
+With the help of the first you can repeat the last message of the tutorial.
+"RE" is a magic button that will make your code beautiful and understandable))#
+You can practice a little.
+To continue learning, you need to move Bob into a square with the target...<2|1> #

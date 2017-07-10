@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#616161</color>
     <color name="colorAccent">#f02475</color>
     <color name="my_color">#f8f8f8</color>
-    <color name="bg_color">#282828</color>
+    <color name="bg_color">#1f1f1f</color>
     <color name="EditTextBG">#2c2c2c</color>
     <color name="BTNstrt">#b1cf3a</color>
     <color name="txtVIEW">#acce23</color>
@@ -14,4 +14,9 @@
     <color name="intro">#343434</color>
     <color name="blue">#6749D7</color>
     <color name="purpure">#7E07A9</color>
+    <color name="lite_green">#B8FD99</color>
+    <color name="lite_yellow">#FFF3AA</color>
+    <color name="lite_orange">#FF9900</color>
+    <color name="lite_red">#F42909</color>
+    <color name="clear">#0000</color>
 </resources>

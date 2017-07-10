@@ -1,0 +1,23 @@
+Bob also knows how to make his own decisions.#
+For this he needs a condition.#
+The game has a 'while (condition)' loop
+while (right_wall) {
+...commands
+};
+Commands will be executed while the condition is true.#
+To select this cycle:
+The second button, then click 'while'
+To select the conditions:
+LONG pushing the first button.#
+Help Bob to eat all the sweets.
+Use while! [1|0][2|0][3|0][4|0][5|0][6|0]#
+Go to the next step. <6|3>#
+There is also an "if-else" structure.
+It's advantage in an alternative solution, if the first condition is not met.#
+It looks like this:
+if (condition) {
+... commands
+} else {
+...commands
+};
+Help Bob eat all the sweets. [1|2][2|4][4|2][4|4]#
