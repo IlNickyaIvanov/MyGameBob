@@ -141,6 +141,7 @@ public class ActivityLevelEditor extends AppCompatActivity {
         if (sizeY < sizeX) size = sizeY;
         else size = sizeX;
 
+
         Squares.clear();
         fromX = screenX / 4 + (screenX / 2 - size * columns) / 2;
         fromY = (screenY - size * lines) / 2;
